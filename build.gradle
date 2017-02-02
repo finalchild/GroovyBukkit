@@ -34,7 +34,7 @@ apply plugin: 'maven-publish'
 defaultTasks 'clean', 'build', 'createExe'
 
 group 'me.finalchild'
-version '1.0.1'
+version '1.0.2-SNAPSHOT'
 
 description 'A Bukkit plugin to support writing scripts and plugins using Groovy.'
 

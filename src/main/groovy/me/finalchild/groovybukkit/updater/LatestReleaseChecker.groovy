@@ -50,7 +50,6 @@ class LatestReleaseChecker {
         connection.setRequestProperty 'User-Agent', 'GroovyBukkit'
         connection.setRequestProperty 'Time-Zone', TimeZone.default.ID
 
-        println connection.responseCode
         switch (connection.responseCode) {
             case 200:
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.inputStream))

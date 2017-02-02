@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This file is part of GroovyBukkit, licensed under the MIT License (MIT).
+  ~
+  ~ Copyright (c) 2017 Final Child
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.finalchild.gbcompiler.gui.CompilerAppController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-7.0" layoutY="74.0" prefHeight="143.0" prefWidth="614.0" text="Select the script to compile." textAlignment="CENTER">
+            <font>
+                <Font size="46.0" />
+            </font>
+        </Label>
+      <Label layoutX="83.0" layoutY="204.0" prefHeight="27.0" prefWidth="54.0" text="Script:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+        <TextField fx:id="fileName" layoutX="137.0" layoutY="204.0" prefHeight="27.0" prefWidth="326.0" promptText="script" />
+        <Button fx:id="browseScriptButton" layoutX="462.0" layoutY="205.0" mnemonicParsing="false" onAction="#browseScript" text="Browse" />
+      <Label layoutX="83.0" layoutY="249.0" prefHeight="27.0" prefWidth="54.0" text="Target:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+        <TextField fx:id="target" layoutX="137.0" layoutY="249.0" prefHeight="27.0" prefWidth="326.0" promptText="target" />
+        <Button fx:id="browseTargetButton" layoutX="462.0" layoutY="250.0" mnemonicParsing="false" onAction="#browseTarget" text="Browse" />
+        <Button fx:id="compileButton" layoutX="213.0" layoutY="299.0" mnemonicParsing="false" onAction="#compile" prefHeight="25.0" prefWidth="174.0" text="Compile">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Button>
+    </children>
+</Pane>

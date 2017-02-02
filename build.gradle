@@ -1,0 +1,158 @@
+/*
+ * This file is part of GroovyBukkit, licensed under the MIT License (MIT).
+ *
+ * Copyright (c) 2017 Final Child
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+defaultTasks 'clean', 'build', 'createExe'
+
+group 'me.finalchild'
+version '0.0.1-SNAPSHOT'
+
+description 'A Bukkit plugin to support writing scripts and plugins using Groovy.'
+
+repositories {
+    jcenter()
+    maven {
+        name 'spigot-repo'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    compile 'org.bukkit:bukkit:1.11.2-R0.1-SNAPSHOT'
+    compile 'org.codehaus.groovy:groovy-all:2.4.8'
+}
+
+processResources {
+    expand(
+            name: project.name,
+            version: project.version,
+            description: project.description
+    )
+    filteringCharset = 'UTF-8'
+}
+
+shadowJar {
+    dependencies {
+        exclude(dependency('org.bukkit:bukkit'))
+        exclude(dependency('commons-lang:commons-lang'))
+        exclude(dependency('com.googlecode.json-simple:json-simple'))
+        exclude(dependency('junit:junit'))
+        exclude(dependency('org.hamcrest:hamcrest-core'))
+        exclude(dependency('com.google.guava:guava'))
+        exclude(dependency('com.google.code.gson:gson'))
+        exclude(dependency('org.avaje:ebean'))
+        exclude(dependency('javax.persistence:persistence-api'))
+        exclude(dependency('org.yaml:snakeyaml'))
+    }
+
+    mergeServiceFiles()
+    mergeGroovyExtensionModules()
+    classifier = null
+    version = null
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    from groovydoc.destinationDir
+    classifier = 'groovydoc'
+}
+
+artifacts {
+    archives jar
+    archives shadowJar
+    archives sourcesJar
+    archives groovydocJar
+}
+
+def pomConfig = {
+    name project.name
+    description project.description
+    inceptionYear 2017
+    licenses {
+        license {
+            name 'MIT License'
+            url 'https://opensource.org/licenses/MIT'
+            distribution 'repo'
+        }
+    }
+
+    developers {
+        developer {
+            id 'finalchild'
+            name 'Final Child'
+            email 'finalchild@ourmc.space'
+            url 'http://finalchild.me'
+            organization 'Our Minecraft Space'
+            organizationUrl 'http://ourmc.space'
+            roles {
+                role 'developer'
+            }
+            timezone 'Asia/Seoul'
+        }
+    }
+
+    scm {
+        connection 'scm:git:https://github.com/finalchild/GroovyBukkit.git'
+        developerConnection 'scm:git:https://github.com/finalchild/GroovyBukkit.git'
+        url 'https://github.com/finalchild/GroovyBukkit'
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            artifact shadowJar
+            artifact sourcesJar
+            artifact groovydocJar
+            groupId project.group
+            artifactId 'groovybukkit'
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForMyPublicationPublication {
+        destination = file("${buildDir}/libs/groovybukkit-${project.version}.pom")
+    }
+}

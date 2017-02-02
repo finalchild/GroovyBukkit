@@ -30,7 +30,6 @@ import org.bukkit.plugin.Plugin
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.function.Supplier
 
 class Host {
 
@@ -62,8 +61,8 @@ class Host {
 
     Script loadScript(Path file) {
         loadScript(getScriptLoader(file).orElseThrow { ->
-                new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
-            }.loadScript(file, this))
+            new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
+        }.loadScript(file, this))
     }
 
     Script loadScript(Script script) {

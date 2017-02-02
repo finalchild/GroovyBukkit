@@ -48,12 +48,12 @@ class Host {
             }
         }
 
-        directory.eachFile {
-            if (!Files.isDirectory(it.toPath())) {
+        directory.eachFile { Path file ->
+            if (!Files.isDirectory(file)) {
                 try {
-                    loadScript(it.toPath())
+                    loadScript(file)
                 } catch (Exception e) {
-                    GroovyBukkit.instance.logger.severe('Failed to load a file as a script: ' + it.toPath().fileName)
+                    GroovyBukkit.instance.logger.severe('Failed to load a file as a script: ' + file.fileName)
                     e.printStackTrace()
                 }
             }
@@ -61,14 +61,9 @@ class Host {
     }
 
     Script loadScript(Path file) {
-        loadScript(getScriptLoader(file)
-                .orElseThrow(new Supplier() {
-            @Override
-            Object get() {
+        loadScript(getScriptLoader(file).orElseThrow { ->
                 new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
-            }
-        })
-                .loadScript(file, this))
+            }.loadScript(file, this))
     }
 
     Script loadScript(Script script) {

@@ -24,23 +24,13 @@
 
 package me.finalchild.groovybukkit.extension
 
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-/**
- * Extends {@link CommandSender}.
- */
-class CommandSenderExtension {
+class MaterialExtension {
 
-    /**
-     * Dispatches a command on this server, and executes it if found.
-     *
-     * @param self
-     * @param commandLine the command + arguments. Example: test abc 123
-     * @return returns false if no target is found
-     */
-    static boolean run(CommandSender self, String commandLine) {
-        Bukkit.dispatchCommand(self, commandLine)
+    static ItemStack multiply(Material self, int amount) {
+        new ItemStack(self, amount)
     }
 
 }

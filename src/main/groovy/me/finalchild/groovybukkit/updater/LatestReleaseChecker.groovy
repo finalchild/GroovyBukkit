@@ -49,9 +49,10 @@ class LatestReleaseChecker {
         connection.setRequestProperty 'Accept', 'application/vnd.github.v3+json'
         connection.setRequestProperty 'User-Agent', 'GroovyBukkit'
         connection.setRequestProperty 'Time-Zone', TimeZone.default.ID
+        connection.instanceFollowRedirects = true
 
         switch (connection.responseCode) {
-            case 200:
+            case HttpsURLConnection.HTTP_OK:
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.inputStream))
                 JsonObject o = new JsonParser().parse reader asJsonObject
 
@@ -64,12 +65,6 @@ class LatestReleaseChecker {
                 } else {
                     return Optional.empty()
                 }
-            case 301:
-                LatestReleaseChecker.url = new URL(connection.getHeaderField('Location'))
-                return getLatestRelease()
-            case 302:
-            case 307:
-                return getLatestReleaseWithURL(new URL(connection.getHeaderField('Location')))
             default:
                 return Optional.empty()
         }

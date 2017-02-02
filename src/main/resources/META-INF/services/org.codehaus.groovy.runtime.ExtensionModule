@@ -23,4 +23,4 @@
 #
 moduleName=${name}
 moduleVersion=${version}
-extensionClasses=me.finalchild.groovybukkit.extension.Util, me.finalchild.groovybukkit.extension.inventory.ItemStackExtension, me.finalchild.groovybukkit.extension.command.CommandSenderExtension
+extensionClasses=me.finalchild.groovybukkit.extension.Util, me.finalchild.groovybukkit.extension.inventory.ItemStackExtension, me.finalchild.groovybukkit.extension.inventory.InventoryExtension, me.finalchild.groovybukkit.extension.MaterialExtension, me.finalchild.groovybukkit.extension.command.CommandSenderExtension

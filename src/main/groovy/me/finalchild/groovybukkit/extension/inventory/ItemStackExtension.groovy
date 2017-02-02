@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension
+package me.finalchild.groovybukkit.extension.inventory
 
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
@@ -30,9 +30,9 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
 /**
- * Extends inventory related classes of Bukkit.
+ * Extends {@link ItemStack}.
  */
-class InventoryExtension {
+class ItemStackExtension {
 
     /**
      * Checks for existence of a display name.

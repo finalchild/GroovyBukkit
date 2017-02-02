@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension
+package me.finalchild.groovybukkit.extension.command
 
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender

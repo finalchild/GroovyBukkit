@@ -1,0 +1,18 @@
+{
+  "package": {
+    "name": "GroovyBukkit",
+    "repo": "Final_Repo",
+    "subject": "finalchild"
+  },
+  "version": {
+    "name": "0.0.1-SNAPSHOT",
+    "gpgSign": true
+  },
+  "files": [
+    {
+      "includePattern": "build\/libs\/(?!.*GroovyBukkit\.jar)(.*)",
+      "uploadPattern": "$1"
+    }
+  ],
+  "publish": true
+}

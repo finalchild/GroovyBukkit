@@ -30,7 +30,6 @@ import org.bukkit.plugin.Plugin
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.function.Supplier
 
 class Host {
 
@@ -48,12 +47,12 @@ class Host {
             }
         }
 
-        directory.eachFile {
-            if (!Files.isDirectory(it.toPath())) {
+        directory.eachFile { Path file ->
+            if (!Files.isDirectory(file)) {
                 try {
-                    loadScript(it.toPath())
+                    loadScript(file)
                 } catch (Exception e) {
-                    GroovyBukkit.instance.logger.severe('Failed to load a file as a script: ' + it.toPath().fileName)
+                    GroovyBukkit.instance.logger.severe('Failed to load a file as a script: ' + file.fileName)
                     e.printStackTrace()
                 }
             }
@@ -61,14 +60,9 @@ class Host {
     }
 
     Script loadScript(Path file) {
-        loadScript(getScriptLoader(file)
-                .orElseThrow(new Supplier() {
-            @Override
-            Object get() {
-                new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
-            }
-        })
-                .loadScript(file, this))
+        loadScript(getScriptLoader(file).orElseThrow { ->
+            new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
+        }.loadScript(file, this))
     }
 
     Script loadScript(Script script) {

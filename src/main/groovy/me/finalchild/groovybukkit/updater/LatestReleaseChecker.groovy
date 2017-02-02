@@ -57,7 +57,7 @@ class LatestReleaseChecker {
                 JsonObject o = new JsonParser().parse reader asJsonObject
 
                 String version1 = GroovyBukkit.instance.description.version
-                String version2 = o.getAsJsonPrimitive 'name' asString
+                String version2 = o.getAsJsonPrimitive 'tag_name' asString
                 version2 = version2.substring(1, version2.length())
 
                 if (version1 != version2) {

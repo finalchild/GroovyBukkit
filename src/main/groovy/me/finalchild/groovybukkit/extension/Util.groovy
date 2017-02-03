@@ -307,8 +307,9 @@ class Util {
     static class ItemStackBuilder {
 
         Material type
-        int amount
-        short durability
+        int amount = 1
+        short damage = -1
+        byte data = -1
 
         String name
         List<String> lore
@@ -324,8 +325,8 @@ class Util {
             this.amount = amount
         }
 
-        void durability(short durability) {
-            this.durability = durability
+        void damage(short damage) {
+            this.damage = damage
         }
 
         void name(String name) {
@@ -363,7 +364,7 @@ class Util {
 
         ItemStack build() {
             ItemStack stack = new ItemStack(type, amount)
-            stack.durability = durability
+            if (damage != -1) stack.durability = damage
 
             if (stack.hasItemMeta()) {
                 stack.addUnsafeEnchantments enchantments
@@ -373,6 +374,8 @@ class Util {
                 meta.addItemFlags itemFlags.toArray() as ItemFlag[]
                 stack.itemMeta = meta
             }
+
+            if (data != -1) stack.data.data = data
 
             stack
         }

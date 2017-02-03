@@ -22,43 +22,17 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.inventory
+package me.finalchild.groovybukkit.extension.enchantments
 
-import org.bukkit.Material
-import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.ItemStack
+import org.bukkit.enchantments.Enchantment
 
 /**
- * Extends {@link Inventory}.
+ * Extends {@link Enchantment}.
  */
-class InventoryExtension {
+class EnchantmentExtension {
 
-    static ItemStack getAt(Inventory self, int index) {
-        self.getItem(index)
-    }
-
-    static void putAt(Inventory self, int index, ItemStack item) {
-        self.setItem(index, item)
-    }
-
-    static boolean isCase(Inventory self, ItemStack item) {
-        self.containsAtLeast(item, item.amount)
-    }
-
-    static boolean isCase(Inventory self, Material material) {
-        self.contains(material)
-    }
-
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, ItemStack... items) {
-        self.addItem(items)
-    }
-
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, Material... materials) {
-        ItemStack[] items = new ItemStack[materials.length]
-        for (int i = 0; i < materials.length; i++) {
-            items[i] = new ItemStack(materials[i])
-        }
-        self.addItem(items)
+    static Map.Entry<Enchantment, Integer> multiply(Enchantment self, int level) {
+        new MapEntry(self, level)
     }
 
 }

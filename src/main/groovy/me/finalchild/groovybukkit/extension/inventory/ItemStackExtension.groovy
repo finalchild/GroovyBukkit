@@ -335,4 +335,12 @@ class ItemStackExtension {
         }
     }
 
+    static void leftShift(ItemStack self, Enchantment ench) {
+        self.addEnchantment(ench, 1)
+    }
+
+    static void leftShift(ItemStack self, Map.Entry<Enchantment, Integer> enchantment) {
+        self.addEnchantment(enchantment.key, enchantment.value)
+    }
+
 }

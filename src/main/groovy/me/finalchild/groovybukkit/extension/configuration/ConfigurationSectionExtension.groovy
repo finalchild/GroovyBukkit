@@ -27,7 +27,7 @@ package me.finalchild.groovybukkit.extension.configuration
 import org.bukkit.configuration.ConfigurationSection
 
 /**
- * Extends {@link ConfigurationSection}
+ * Extends {@link ConfigurationSection}.
  */
 class ConfigurationSectionExtension {
 

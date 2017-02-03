@@ -297,7 +297,7 @@ class Util {
      * @param closure
      * @return the ItemStack
      */
-    static ItemStack itemStack(@DelegatesTo(ItemStackBuilder) Closure closure) {
+    static ItemStack item(@DelegatesTo(ItemStackBuilder) Closure closure) {
         ItemStackBuilder builder = new ItemStackBuilder()
         closure.delegate = builder
         closure()

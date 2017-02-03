@@ -315,9 +315,13 @@ class Util {
         List<String> lore
         Map<Enchantment, Integer> enchantments
         List<ItemFlag> itemFlags
-        boolean unbreakable
+        boolean unbreakable = false
 
         void type(Material type) {
+            this.type = type
+        }
+
+        void material(Material type) {
             this.type = type
         }
 
@@ -329,11 +333,23 @@ class Util {
             this.damage = damage
         }
 
+        void damage(int damage) {
+            this.damage = damage
+        }
+
         void name(String name) {
             this.name = name
         }
 
+        void displayName(String name) {
+            this.name = name
+        }
+
         void lore(List<String> lore) {
+            this.lore = lore
+        }
+
+        void lore(String... lore) {
             this.lore = lore
         }
 
@@ -366,13 +382,14 @@ class Util {
             ItemStack stack = new ItemStack(type, amount)
             if (damage != -1) stack.durability = damage
 
-            if (stack.hasItemMeta()) {
-                stack.addUnsafeEnchantments enchantments
-                ItemMeta meta = stack.itemMeta
-                meta.displayName = name
-                meta.lore = lore
-                meta.addItemFlags itemFlags.toArray() as ItemFlag[]
+            ItemMeta meta = stack.itemMeta
+            if (meta != null) {
+                if (name != null) meta.displayName = name
+                if (lore != null) meta.lore = lore
+                if (itemFlags != null) meta.addItemFlags itemFlags.toArray() as ItemFlag[]
+                meta.unbreakable = unbreakable
                 stack.itemMeta = meta
+                stack.addUnsafeEnchantments enchantments
             }
 
             if (data != -1) stack.data.data = data
@@ -382,7 +399,7 @@ class Util {
 
         static class EnchantmentsBuilder {
 
-            Map<Enchantment, Integer> enchantments
+            Map<Enchantment, Integer> enchantments = [:]
 
             void enchantment(Entry<Enchantment, Integer> enchantment) {
                 enchantments[enchantment.key] = enchantment.value

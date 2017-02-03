@@ -49,11 +49,11 @@ class InventoryExtension {
         self.contains(material)
     }
 
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, ItemStack... items) {
+    static HashMap<Integer, ItemStack> leftShift(Inventory self, ItemStack... items) {
         self.addItem(items)
     }
 
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, Material... materials) {
+    static HashMap<Integer, ItemStack> leftShift(Inventory self, Material... materials) {
         ItemStack[] items = new ItemStack[materials.length]
         for (int i = 0; i < materials.length; i++) {
             items[i] = new ItemStack(materials[i])

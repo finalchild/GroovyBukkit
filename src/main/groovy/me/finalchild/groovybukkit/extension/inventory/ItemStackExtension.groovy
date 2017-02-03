@@ -103,8 +103,8 @@ class ItemStackExtension {
      * @param name the name to set
      */
     static void setDisplayName(ItemStack self, String name) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.displayName = name
             self.itemMeta = itemMeta
         } else {
@@ -119,8 +119,8 @@ class ItemStackExtension {
      * @param name the name to set
      */
     static void setName(ItemStack self, String name) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.displayName = name
             self.itemMeta = itemMeta
         } else {
@@ -167,8 +167,8 @@ class ItemStackExtension {
      * @param lore the lore that will be set
      */
     static void setLore(ItemStack self, List<String> lore) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.lore = lore
             self.itemMeta = itemMeta
         } else {
@@ -228,8 +228,8 @@ class ItemStackExtension {
      * @param itemFlags The hideflags which shouldn't be rendered
      */
     static void addItemFlags(ItemStack self, ItemFlag... itemFlags) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.addItemFlags(itemFlags)
             self.itemMeta = itemMeta
         } else {
@@ -244,8 +244,8 @@ class ItemStackExtension {
      * @param itemFlags Hideflags which should be removed
      */
     static void removeItemFlags(ItemStack self, ItemFlag... itemFlags) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.removeItemFlags(itemFlags)
             self.itemMeta = itemMeta
         } else {
@@ -304,8 +304,8 @@ class ItemStackExtension {
      * @param unbreakable true if set unbreakable
      */
     static void setUnbreakable(ItemStack self, boolean unbreakable) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.unbreakable = unbreakable
             self.itemMeta = itemMeta
         } else {
@@ -322,8 +322,8 @@ class ItemStackExtension {
     }
 
     static void leftShift(ItemStack self, ItemFlag flag) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
+        ItemMeta itemMeta = self.itemMeta
+        if (itemMeta != null) {
             itemMeta.addItemFlags(flag)
             self.itemMeta = itemMeta
         } else {
@@ -345,8 +345,8 @@ class ItemStackExtension {
 
     static ItemStack plus(ItemStack self, ItemFlag flag) {
         ItemStack stack = self.clone()
-        if (stack.hasItemMeta()) {
-            ItemMeta itemMeta = stack.itemMeta
+        ItemMeta itemMeta = stack.itemMeta
+        if (itemMeta != null) {
             itemMeta.addItemFlags(flag)
             stack.itemMeta = itemMeta
         } else {
@@ -369,8 +369,8 @@ class ItemStackExtension {
 
     static ItemStack minus(ItemStack self, ItemFlag flag) {
         ItemStack stack = self.clone()
-        if (stack.hasItemMeta()) {
-            ItemMeta itemMeta = stack.itemMeta
+        ItemMeta itemMeta = stack.itemMeta
+        if (itemMeta != null) {
             itemMeta.removeItemFlags(flag)
             stack.itemMeta = itemMeta
         } else {

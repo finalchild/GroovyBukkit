@@ -22,33 +22,32 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.command
+package me.finalchild.groovybukkit.extension.entity
 
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import org.bukkit.Achievement
+import org.bukkit.Material
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 /**
- * Extends {@link CommandSender}.
+ * Extends {@link Player}
  */
-class CommandSenderExtension {
+class PlayerExtension {
 
-    /**
-     * Dispatches a command on this server, and executes it if found.
-     *
-     * @param self
-     * @param commandLine the command + arguments. Example: test abc 123
-     * @return returns false if no target is found
-     */
-    static boolean run(CommandSender self, String commandLine) {
-        Bukkit.dispatchCommand(self, commandLine)
+    static void leftShift(Player self, Achievement achievement) {
+        self.awardAchievement(achievement)
     }
 
-    static void leftShift(CommandSender self, String message) {
-        self.sendMessage(message)
+    static HashMap<Integer, ItemStack> leftShift(Player self, ItemStack... items) {
+        self.inventory.addItem(items)
     }
 
-    static void leftShift(CommandSender self, String... messages) {
-        self.sendMessage(messages)
+    static HashMap<Integer, ItemStack> leftShift(Player self, Material... materials) {
+        ItemStack[] items = new ItemStack[materials.length]
+        for (int i = 0; i < materials.length; i++) {
+            items[i] = new ItemStack(materials[i])
+        }
+        self.inventory.addItem(items)
     }
 
 }

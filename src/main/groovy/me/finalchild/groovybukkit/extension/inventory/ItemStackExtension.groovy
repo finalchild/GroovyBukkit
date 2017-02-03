@@ -49,6 +49,20 @@ class ItemStackExtension {
     }
 
     /**
+     * Checks for existence of a display name.
+     *
+     * @param self
+     * @return true if this has a display name
+     */
+    static boolean hasName(ItemStack self) {
+        if (self.hasItemMeta()) {
+            self.itemMeta.hasDisplayName()
+        } else {
+            false
+        }
+    }
+
+    /**
      * Gets the display name that is set.
      * <p>
      * Plugins should check that hasDisplayName() returns <code>true</code>
@@ -66,12 +80,45 @@ class ItemStackExtension {
     }
 
     /**
+     * Gets the display name that is set.
+     * <p>
+     * Plugins should check that hasDisplayName() returns <code>true</code>
+     * before calling this method.
+     *
+     * @param self
+     * @return the display name that is set
+     */
+    static String getName(ItemStack self) {
+        if (self.hasItemMeta()) {
+            self.itemMeta.displayName
+        } else {
+            null
+        }
+    }
+
+    /**
      * Sets the display name.
      *
      * @param self
      * @param name the name to set
      */
     static void setDisplayName(ItemStack self, String name) {
+        if (self.hasItemMeta()) {
+            ItemMeta itemMeta = self.itemMeta
+            itemMeta.displayName = name
+            self.itemMeta = itemMeta
+        } else {
+            throw new UnsupportedOperationException("No ItemMeta for the item ${self.toString()} found.")
+        }
+    }
+
+    /**
+     * Sets the display name.
+     *
+     * @param self
+     * @param name the name to set
+     */
+    static void setName(ItemStack self, String name) {
         if (self.hasItemMeta()) {
             ItemMeta itemMeta = self.itemMeta
             itemMeta.displayName = name
@@ -153,75 +200,6 @@ class ItemStackExtension {
     static boolean hasEnchant(ItemStack self, Enchantment ench) {
         if (self.hasItemMeta()) {
             self.itemMeta.hasEnchant(ench)
-        } else {
-            false
-        }
-    }
-
-    /**
-     * Checks for the level of the specified enchantment.
-     *
-     * @param self
-     * @param ench enchantment to check
-     * @return The level that the specified enchantment has, or 0 if none
-     */
-    static int getEnchantmentLevel(ItemStack self, Enchantment ench) {
-        if (self.hasItemMeta()) {
-            self.itemMeta.getEnchantLevel(ench)
-        } else {
-            0
-        }
-    }
-
-    /**
-     * Returns a copy the enchantments in this ItemMeta. <br>
-     * Returns an empty map if none.
-     *
-     * @param self
-     * @return An immutable copy of the enchantments
-     */
-    static Map<Enchantment, Integer> getEnchants(ItemStack self) {
-        if (self.hasItemMeta()) {
-            self.itemMeta.getEnchants()
-        } else {
-            Collections.emptyMap()
-        }
-    }
-
-    /**
-     * Adds the specified enchantment to this item meta.
-     *
-     * @param self
-     * @param ench Enchantment to add
-     * @param level Level for the enchantment
-     * @param ignoreLevelRestriction this indicates the enchantment should be
-     *     applied, ignoring the level limit
-     * @return true if the item meta changed as a result of this call, false
-     *     otherwise
-     */
-    static boolean addEnchant(ItemStack self, Enchantment ench, int level, boolean ignoreLevelRestriction) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
-            itemMeta.addEnchant(ench, level, ignoreLevelRestriction)
-            self.itemMeta = itemMeta
-        } else {
-            false
-        }
-    }
-
-    /**
-     * Removes the specified enchantment from this item meta.
-     *
-     * @param self
-     * @param ench Enchantment to remove
-     * @return true if the item meta changed as a result of this call, false
-     *     otherwise
-     */
-    static boolean removeEnchant(ItemStack self, Enchantment ench) {
-        if (self.hasItemMeta()) {
-            ItemMeta itemMeta = self.itemMeta
-            itemMeta.removeEnchant(ench)
-            self.itemMeta = itemMeta
         } else {
             false
         }
@@ -336,11 +314,69 @@ class ItemStackExtension {
     }
 
     static void leftShift(ItemStack self, Enchantment ench) {
-        self.addEnchantment(ench, 1)
+        self.addUnsafeEnchantment(ench, 1)
     }
 
     static void leftShift(ItemStack self, Map.Entry<Enchantment, Integer> enchantment) {
-        self.addEnchantment(enchantment.key, enchantment.value)
+        self.addUnsafeEnchantment(enchantment.key, enchantment.value)
+    }
+
+    static void leftShift(ItemStack self, ItemFlag flag) {
+        if (self.hasItemMeta()) {
+            ItemMeta itemMeta = self.itemMeta
+            itemMeta.addItemFlags(flag)
+            self.itemMeta = itemMeta
+        } else {
+            throw new UnsupportedOperationException("No ItemMeta for the item ${self.toString()} found.")
+        }
+    }
+
+    static ItemStack plus(ItemStack self, Enchantment ench) {
+        ItemStack stack = self.clone()
+        stack.addUnsafeEnchantment(ench, 1)
+        stack
+    }
+
+    static ItemStack plus(ItemStack self, Map.Entry<Enchantment, Integer> enchantment) {
+        ItemStack stack = self.clone()
+        stack.addUnsafeEnchantment(enchantment.key, enchantment.value)
+        stack
+    }
+
+    static ItemStack plus(ItemStack self, ItemFlag flag) {
+        ItemStack stack = self.clone()
+        if (stack.hasItemMeta()) {
+            ItemMeta itemMeta = stack.itemMeta
+            itemMeta.addItemFlags(flag)
+            stack.itemMeta = itemMeta
+        } else {
+            throw new UnsupportedOperationException("No ItemMeta for the item ${self.toString()} found.")
+        }
+        stack
+    }
+
+    static ItemStack minus(ItemStack self, Enchantment ench) {
+        ItemStack stack = self.clone()
+        stack.removeEnchantment(ench)
+        stack
+    }
+
+    static ItemStack minus(ItemStack self, Map.Entry<Enchantment, Integer> enchantment) {
+        ItemStack stack = self.clone()
+        stack.removeEnchantment(enchantment.key)
+        stack
+    }
+
+    static ItemStack minus(ItemStack self, ItemFlag flag) {
+        ItemStack stack = self.clone()
+        if (stack.hasItemMeta()) {
+            ItemMeta itemMeta = stack.itemMeta
+            itemMeta.removeItemFlags(flag)
+            stack.itemMeta = itemMeta
+        } else {
+            throw new UnsupportedOperationException("No ItemMeta for the item ${self.toString()} found.")
+        }
+        stack
     }
 
 }

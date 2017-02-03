@@ -29,14 +29,21 @@ import me.finalchild.groovybukkit.GroovyBukkit
 import me.finalchild.groovybukkit.delegate.OnCommandDelegate
 import me.finalchild.groovybukkit.util.CommandUtil
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.Event
 import org.bukkit.event.EventException
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemFlag
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.EventExecutor
 import org.bukkit.scheduler.BukkitTask
+
+import java.util.Map.Entry
 
 /**
  * Utility methods. Automatically imported in GroovyBukkit scripts.
@@ -122,7 +129,7 @@ class Util {
         CommandUtil.register('gb', new Command(label) {
             @Override
             boolean execute(CommandSender sender, String commandLabel, String[] args) {
-                closure.setDelegate(new OnCommandDelegate(sender: sender, label: commandLabel, args: args))
+                closure.delegate = new OnCommandDelegate(sender: sender, label: commandLabel, args: args)
                 closure()
             }
         })
@@ -285,4 +292,104 @@ class Util {
         self
     }
 
+    /**
+     * {@link ItemStack} builder
+     * @param closure
+     * @return the ItemStack
+     */
+    static ItemStack itemStack(@DelegatesTo(ItemStackBuilder) Closure closure) {
+        ItemStackBuilder builder = new ItemStackBuilder()
+        closure.delegate = builder
+        closure()
+        builder.build()
+    }
+
+    static class ItemStackBuilder {
+
+        Material type
+        int amount
+        short durability
+
+        String name
+        List<String> lore
+        Map<Enchantment, Integer> enchantments
+        List<ItemFlag> itemFlags
+        boolean unbreakable
+
+        void type(Material type) {
+            this.type = type
+        }
+
+        void amount(int amount) {
+            this.amount = amount
+        }
+
+        void durability(short durability) {
+            this.durability = durability
+        }
+
+        void name(String name) {
+            this.name = name
+        }
+
+        void lore(List<String> lore) {
+            this.lore = lore
+        }
+
+        void enchantments(Map<Enchantment, Integer> enchantments) {
+            this.enchantments = enchantments
+        }
+
+        void enchantments(List<Entry<Enchantment, Integer>> enchantments) {
+            this.enchantments = enchantments.collectEntries {
+                [it.key, it.value]
+            }
+        }
+
+        void enchantments(@DelegatesTo(EnchantmentsBuilder) Closure closure) {
+            EnchantmentsBuilder builder = new EnchantmentsBuilder()
+            closure.delegate = builder
+            closure()
+            enchantments = builder.build()
+        }
+
+        void itemFlags(List<ItemFlag> itemFlags) {
+            this.itemFlags = itemFlags
+        }
+
+        void unbreakable(boolean unbreakable) {
+            this.unbreakable = unbreakable
+        }
+
+        ItemStack build() {
+            ItemStack stack = new ItemStack(type, amount)
+            stack.durability = durability
+
+            if (stack.hasItemMeta()) {
+                stack.addUnsafeEnchantments enchantments
+                ItemMeta meta = stack.itemMeta
+                meta.displayName = name
+                meta.lore = lore
+                meta.addItemFlags itemFlags.toArray() as ItemFlag[]
+                stack.itemMeta = meta
+            }
+
+            stack
+        }
+
+        static class EnchantmentsBuilder {
+
+            Map<Enchantment, Integer> enchantments
+
+            void enchantment(Entry<Enchantment, Integer> enchantment) {
+                enchantments[enchantment.key] = enchantment.value
+            }
+
+            Map<Enchantment, Integer> build() {
+                enchantments
+            }
+
+        }
+
+    }
 }

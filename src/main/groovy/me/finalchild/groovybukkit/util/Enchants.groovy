@@ -26,8 +26,6 @@ package me.finalchild.groovybukkit.util
 
 import org.bukkit.enchantments.Enchantment
 
-import static org.bukkit.enchantments.Enchantment.*
-
 /**
  * Redirects to {@link Enchantment}s by its displayed name.
  */
@@ -35,40 +33,40 @@ class Enchants {
 
     private Enchants() {}
 
-    static final Enchantment PROTECTION = PROTECTION_ENVIRONMENTAL
-    static final Enchantment FIRE_PROTECTION = PROTECTION_FIRE
-    static final Enchantment FEATHER_FALLING = PROTECTION_FALL
-    static final Enchantment BLAST_PROTECTION = PROTECTION_EXPLOSIONS
-    static final Enchantment PROJECTILE_PROTECTION = PROTECTION_PROJECTILE
-    static final Enchantment RESPIRATION = OXYGEN
-    static final Enchantment AQUA_AFFINITY = WATER_WORKER
-    static final Enchantment THORNS = THORNS
-    static final Enchantment DEPTH_STRIDER = DEPTH_STRIDER
-    static final Enchantment FROST_WALKER = FROST_WALKER
-    static final Enchantment CURSE_OF_BINDING = BINDING_CURSE
+    static final Enchantment PROTECTION = Enchantment.PROTECTION_ENVIRONMENTAL
+    static final Enchantment FIRE_PROTECTION = Enchantment.PROTECTION_FIRE
+    static final Enchantment FEATHER_FALLING = Enchantment.PROTECTION_FALL
+    static final Enchantment BLAST_PROTECTION = Enchantment.PROTECTION_EXPLOSIONS
+    static final Enchantment PROJECTILE_PROTECTION = Enchantment.PROTECTION_PROJECTILE
+    static final Enchantment RESPIRATION = Enchantment.OXYGEN
+    static final Enchantment AQUA_AFFINITY = Enchantment.WATER_WORKER
+    static final Enchantment THORNS = Enchantment.THORNS
+    static final Enchantment DEPTH_STRIDER = Enchantment.DEPTH_STRIDER
+    static final Enchantment FROST_WALKER = Enchantment.FROST_WALKER
+    static final Enchantment CURSE_OF_BINDING = Enchantment.BINDING_CURSE
 
-    static final Enchantment SHARPNESS = DAMAGE_ALL
-    static final Enchantment SMITE = DAMAGE_UNDEAD
-    static final Enchantment BANE_OF_ARTHROPODS = DAMAGE_ARTHROPODS
-    static final Enchantment KNOCKBACK = KNOCKBACK
-    static final Enchantment FIRE_ASPECT = FIRE_ASPECT
-    static final Enchantment LOOTING = LOOT_BONUS_MOBS
-    static final Enchantment SWEEPING_EDGE = SWEEPING_EDGE
+    static final Enchantment SHARPNESS = Enchantment.DAMAGE_ALL
+    static final Enchantment SMITE = Enchantment.DAMAGE_UNDEAD
+    static final Enchantment BANE_OF_ARTHROPODS = Enchantment.DAMAGE_ARTHROPODS
+    static final Enchantment KNOCKBACK = Enchantment.KNOCKBACK
+    static final Enchantment FIRE_ASPECT = Enchantment.FIRE_ASPECT
+    static final Enchantment LOOTING = Enchantment.LOOT_BONUS_MOBS
+    static final Enchantment SWEEPING_EDGE = Enchantment.SWEEPING_EDGE
 
-    static final Enchantment EFFICIENCY = DIG_SPEED
-    static final Enchantment SILK_TOUCH = SILK_TOUCH
-    static final Enchantment UNBREAKING = DURABILITY
-    static final Enchantment FORTUNE = LOOT_BONUS_BLOCKS
+    static final Enchantment EFFICIENCY = Enchantment.DIG_SPEED
+    static final Enchantment SILK_TOUCH = Enchantment.SILK_TOUCH
+    static final Enchantment UNBREAKING = Enchantment.DURABILITY
+    static final Enchantment FORTUNE = Enchantment.LOOT_BONUS_BLOCKS
 
-    static final Enchantment POWER = ARROW_DAMAGE
-    static final Enchantment PUNCH = ARROW_KNOCKBACK
-    static final Enchantment FLAME = ARROW_FIRE
-    static final Enchantment INFINITY = ARROW_INFINITE
+    static final Enchantment POWER = Enchantment.ARROW_DAMAGE
+    static final Enchantment PUNCH = Enchantment.ARROW_KNOCKBACK
+    static final Enchantment FLAME = Enchantment.ARROW_FIRE
+    static final Enchantment INFINITY = Enchantment.ARROW_INFINITE
 
-    static final Enchantment LUCK_OF_THE_SEA = LUCK
-    static final Enchantment LURE = LURE
+    static final Enchantment LUCK_OF_THE_SEA = Enchantment.LUCK
+    static final Enchantment LURE = Enchantment.LURE
 
-    static final Enchantment MENDING = MENDING
-    static final Enchantment CURSE_OF_VANISHING = VANISHING_CURSE
+    static final Enchantment MENDING = Enchantment.MENDING
+    static final Enchantment CURSE_OF_VANISHING = Enchantment.VANISHING_CURSE
 
 }

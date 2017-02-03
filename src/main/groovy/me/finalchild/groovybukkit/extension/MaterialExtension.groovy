@@ -27,6 +27,9 @@ package me.finalchild.groovybukkit.extension
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
+/**
+ * Extends {@link Material}.
+ */
 class MaterialExtension {
 
     static ItemStack multiply(Material self, int amount) {

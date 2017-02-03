@@ -85,4 +85,9 @@ class GroovyBukkit extends JavaPlugin implements Listener {
         host.evalScripts()
     }
 
+    @Override
+    void onDisable() {
+        host.onDisable()
+    }
+
 }

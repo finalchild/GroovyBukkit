@@ -29,7 +29,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
 /**
- * Extends {@link Inventory}
+ * Extends {@link Inventory}.
  */
 class InventoryExtension {
 
@@ -49,11 +49,11 @@ class InventoryExtension {
         self.contains(material)
     }
 
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, ItemStack... items) {
+    static HashMap<Integer, ItemStack> leftShift(Inventory self, ItemStack... items) {
         self.addItem(items)
     }
 
-    static HashMap<Integer,ItemStack> leftShift(Inventory self, Material... materials) {
+    static HashMap<Integer, ItemStack> leftShift(Inventory self, Material... materials) {
         ItemStack[] items = new ItemStack[materials.length]
         for (int i = 0; i < materials.length; i++) {
             items[i] = new ItemStack(materials[i])

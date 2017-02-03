@@ -22,33 +22,17 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.command
+package me.finalchild.groovybukkit.extension.enchantments
 
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
 
 /**
- * Extends {@link CommandSender}.
+ * Extends {@link Enchantment}.
  */
-class CommandSenderExtension {
+class EnchantmentExtension {
 
-    /**
-     * Dispatches a command on this server, and executes it if found.
-     *
-     * @param self
-     * @param commandLine the command + arguments. Example: test abc 123
-     * @return returns false if no target is found
-     */
-    static boolean run(CommandSender self, String commandLine) {
-        Bukkit.dispatchCommand(self, commandLine)
-    }
-
-    static void leftShift(CommandSender self, String message) {
-        self.sendMessage(message)
-    }
-
-    static void leftShift(CommandSender self, String... messages) {
-        self.sendMessage(messages)
+    static Map.Entry<Enchantment, Integer> multiply(Enchantment self, int level) {
+        new MapEntry(self, level)
     }
 
 }

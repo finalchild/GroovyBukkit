@@ -22,33 +22,21 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.command
+package me.finalchild.groovybukkit.extension.configuration
 
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import org.bukkit.configuration.ConfigurationSection
 
 /**
- * Extends {@link CommandSender}.
+ * Extends {@link ConfigurationSection}.
  */
-class CommandSenderExtension {
+class ConfigurationSectionExtension {
 
-    /**
-     * Dispatches a command on this server, and executes it if found.
-     *
-     * @param self
-     * @param commandLine the command + arguments. Example: test abc 123
-     * @return returns false if no target is found
-     */
-    static boolean run(CommandSender self, String commandLine) {
-        Bukkit.dispatchCommand(self, commandLine)
+    static <T> T getAt(ConfigurationSection self, String path) {
+        self.get(path) as T
     }
 
-    static void leftShift(CommandSender self, String message) {
-        self.sendMessage(message)
-    }
-
-    static void leftShift(CommandSender self, String... messages) {
-        self.sendMessage(messages)
+    static void putAt(ConfigurationSection self, String path, Object value) {
+        self.set(path, value)
     }
 
 }

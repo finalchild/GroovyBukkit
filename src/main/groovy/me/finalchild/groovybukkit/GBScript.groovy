@@ -51,7 +51,7 @@ abstract class GBScript extends Script {
     }
 
     Path getConfigPath() {
-        wrapper.dataFolder.resolve("config.yml")
+        getWrapper().dataFolder.resolve("config.yml")
     }
 
     FileConfiguration getConfig() {
@@ -71,7 +71,7 @@ abstract class GBScript extends Script {
 
     @Override
     String toString() {
-        return "GBScript: ${wrapper.id}"
+        return "GBScript: ${getWrapper().id}"
     }
 
 }

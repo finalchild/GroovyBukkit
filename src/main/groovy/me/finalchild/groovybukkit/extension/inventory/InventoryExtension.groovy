@@ -27,6 +27,8 @@ package me.finalchild.groovybukkit.extension.inventory
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.codehaus.groovy.runtime.DefaultGroovyMethodsSupport
+import org.codehaus.groovy.runtime.RangeInfo
 
 /**
  * Extends {@link Inventory}.
@@ -35,6 +37,14 @@ class InventoryExtension {
 
     static ItemStack getAt(Inventory self, int index) {
         self.getItem(index)
+    }
+
+    static List<ItemStack> getAt(Inventory self, Range range) {
+        self.contents[range]
+    }
+
+    static List<ItemStack> getAt(Inventory self, Collection indices) {
+        self.contents[indices]
     }
 
     static void putAt(Inventory self, int index, ItemStack item) {

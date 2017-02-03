@@ -345,10 +345,6 @@ class Util {
             this.name = name
         }
 
-        void lore(List<String> lore) {
-            this.lore = lore
-        }
-
         void lore(String... lore) {
             this.lore = lore
         }
@@ -357,7 +353,7 @@ class Util {
             this.enchantments = enchantments
         }
 
-        void enchantments(List<Entry<Enchantment, Integer>> enchantments) {
+        void enchantments(Entry<Enchantment, Integer>... enchantments) {
             this.enchantments = enchantments.collectEntries {
                 [it.key, it.value]
             }
@@ -370,7 +366,7 @@ class Util {
             enchantments = builder.build()
         }
 
-        void itemFlags(List<ItemFlag> itemFlags) {
+        void itemFlags(ItemFlag... itemFlags) {
             this.itemFlags = itemFlags
         }
 

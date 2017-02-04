@@ -10,7 +10,7 @@
   },
   "files": [
     {
-      "includePattern": "build\/libs\/(?!.*GroovyBukkit\.jar)(.*)",
+      "includePattern": "build\/upload\/(.*)",
       "uploadPattern": "$1"
     }
   ],

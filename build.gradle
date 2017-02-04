@@ -34,7 +34,7 @@ apply plugin: 'maven-publish'
 defaultTasks 'clean', 'build', 'createExe'
 
 group 'me.finalchild'
-version '1.1.2-SNAPSHOT'
+version '1.1.2-beta.1'
 
 description 'A Bukkit plugin to support writing scripts and plugins using Groovy.'
 
@@ -152,4 +152,16 @@ model {
     tasks.generatePomFileForMyPublicationPublication {
         destination = file("${buildDir}/libs/groovybukkit-${project.version}.pom")
     }
+}
+
+task prepareUpload(type: Copy, dependsOn: ['build', 'generatePomFileForMyPublicationPublication']) {
+    from 'build/libs'
+    into 'build/upload'
+    include "GroovyBukkit-${project.version}.jar"
+    include "GroovyBukkit-${project.version}-groovydoc.jar"
+    include "GroovyBukkit-${project.version}-sources.jar"
+    include "groovybukkit-${project.version}.pom"
+    rename "GroovyBukkit-${project.version}.jar", "groovybukkit-${project.version}.jar"
+    rename "GroovyBukkit-${project.version}-groovydoc.jar", "groovybukkit-${project.version}-groovydoc.jar"
+    rename "GroovyBukkit-${project.version}-sources.jar", "groovybukkit-${project.version}-sources.jar"
 }

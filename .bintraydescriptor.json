@@ -5,12 +5,12 @@
     "subject": "finalchild"
   },
   "version": {
-    "name": "1.1.1",
+    "name": "1.1.2-beta.1",
     "gpgSign": true
   },
   "files": [
     {
-      "includePattern": "build\/libs\/(?!.*GroovyBukkit\.jar)(.*)",
+      "includePattern": "build\/upload\/(.*)",
       "uploadPattern": "$1"
     }
   ],

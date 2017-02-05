@@ -60,26 +60,15 @@ class Util {
      * @param closure executor closure to register
      */
     static <T extends Event> void on(
-            @DelegatesTo.Target Class<T> event, EventPriority priority,
+            @DelegatesTo.Target Class<T> event, EventPriority priority = EventPriority.NORMAL,
             @DelegatesTo(genericTypeIndex = 0) Closure closure) {
         Bukkit.getPluginManager().registerEvent(event, GroovyBukkit.instance, priority, new EventExecutor() {
             @Override
             void execute(Listener listener, Event eventObj) throws EventException {
                 closure.setDelegate(eventObj)
-                closure()
+                closure(eventObj)
             }
         }, GroovyBukkit.instance)
-    }
-
-    /**
-     * Registers the specified executor to the given event class
-     *
-     * @param event Event type to register
-     * @param closure executor closure to register
-     */
-    static <T extends Event> void on(
-            @DelegatesTo.Target Class<T> event, @DelegatesTo(genericTypeIndex = 0) Closure closure) {
-        on(event, EventPriority.NORMAL, closure)
     }
 
     /**
@@ -130,7 +119,7 @@ class Util {
             @Override
             boolean execute(CommandSender sender, String commandLabel, String[] args) {
                 closure.delegate = new OnCommandDelegate(sender: sender, label: commandLabel, args: args)
-                closure()
+                closure(args)
             }
         })
     }

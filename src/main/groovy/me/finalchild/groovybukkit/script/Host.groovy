@@ -52,7 +52,7 @@ class Host {
                 try {
                     loadScript(file)
                 } catch (Exception e) {
-                    GroovyBukkit.instance.logger.severe('Failed to load a file as a script: ' + file.fileName)
+                    GroovyBukkit.instance.logger.severe("Failed to load a file as a script: ${file.fileName}")
                     e.printStackTrace()
                 }
             }
@@ -61,13 +61,13 @@ class Host {
 
     Script loadScript(Path file) {
         loadScript(getScriptLoader(file).orElseThrow { ->
-            new UnsupportedOperationException('Could not find a ScriptLoader for the file: ' + file.fileName.toString())
+            new UnsupportedOperationException("Could not find a ScriptLoader for the file: ${file.fileName}")
         }.loadScript(file, this))
     }
 
     Script loadScript(Script script) {
         if (isIdBeingUsed(script.id)) {
-            throw new UnsupportedOperationException('Duplicate id: ' + script.id)
+            throw new UnsupportedOperationException("Duplicate id: ${script.id}")
         }
         loadedScripts.put(script.id, script)
         return script
@@ -78,7 +78,7 @@ class Host {
             try {
                 loadedScript.eval()
             } catch (Exception e) {
-                GroovyBukkit.instance.logger.severe('Failed to run a script: ' + loadedScript.id)
+                GroovyBukkit.instance.logger.severe("Failed to run a script: ${loadedScript.id}")
                 e.printStackTrace()
             }
         }

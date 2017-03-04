@@ -76,4 +76,5 @@ class LatestReleaseChecker {
         String url
         String name
     }
+
 }

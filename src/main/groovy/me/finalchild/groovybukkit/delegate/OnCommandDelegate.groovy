@@ -62,7 +62,7 @@ class OnCommandDelegate {
      *
      * @param messages An array of messages to be displayed
      */
-    void sendMessage(String[] messages) {
+    void sendMessage(String... messages) {
         sender.sendMessage messages
     }
 

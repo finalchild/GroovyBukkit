@@ -40,7 +40,7 @@ final class GBScriptLoader implements ScriptLoader {
 
     GBScriptLoader() {
         CompilerConfiguration config = new CompilerConfiguration()
-        config.setScriptBaseClass GBScript.name
+        config.scriptBaseClass = GBScript.name
         config.sourceEncoding = 'UTF-8'
 
         ImportCustomizer customizer = new ImportCustomizer()
@@ -48,7 +48,7 @@ final class GBScriptLoader implements ScriptLoader {
         customizer.addStaticStars 'me.finalchild.groovybukkit.extension.Util', 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.Material'
         config.addCompilationCustomizers customizer
 
-        engine.setConfig config
+        engine.config = config
     }
 
     @Override

@@ -46,15 +46,15 @@ final class GBScriptWrapper implements FScript {
 
         binding.setVariable("wrapper", this)
 
-        handle = engine.createScript(file.getFileName() as String, binding)
+        handle = engine.createScript(file.fileName as String, binding)
 
         this.host = host
         id = GFiles.getNameWithoutExtension(file.toString())
 
-        dataFolder = file.getParent().resolve(id)
+        dataFolder = file.parent.resolve(id)
         if (Files.exists(dataFolder)) {
             if (!Files.isDirectory(dataFolder)) {
-                throw new RuntimeException("Data folder for the script " + getId() + " is not a directory!")
+                throw new RuntimeException("Data folder for the script $id is not a directory!")
             }
         } else {
             Files.createDirectory(dataFolder)

@@ -34,8 +34,8 @@ abstract class GBScript extends Script {
 
     abstract void onEnable()
 
-    private GBScriptWrapper wrapper
-    private FileConfiguration config
+    private GBScriptWrapper pwrapper
+    private FileConfiguration pconfig
 
     @Override
     Object run() {
@@ -44,29 +44,29 @@ abstract class GBScript extends Script {
     }
 
     GBScriptWrapper getWrapper() {
-        if (wrapper == null) {
-            wrapper = binding.getVariable("wrapper") as GBScriptWrapper
+        if (pwrapper == null) {
+            pwrapper = binding.getVariable("wrapper") as GBScriptWrapper
         }
-        wrapper
+        pwrapper
     }
 
     Path getConfigPath() {
-        getWrapper().dataFolder.resolve("config.yml")
+        wrapper.dataFolder.resolve("config.yml")
     }
 
     FileConfiguration getConfig() {
-        if (config == null) {
+        if (pconfig == null) {
             reloadConfig()
         }
-        config
+        pconfig
     }
 
     void reloadConfig() {
-        config = YamlConfiguration.loadConfiguration(configPath.toFile())
+        pconfig = YamlConfiguration.loadConfiguration(configPath.toFile())
     }
 
     void saveConfig() {
-        if (config != null) config.save(configPath.toFile())
+        if (pconfig != null) pconfig.save(configPath.toFile())
     }
 
     @Override

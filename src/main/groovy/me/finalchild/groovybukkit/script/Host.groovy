@@ -27,17 +27,20 @@ package me.finalchild.groovybukkit.script
 import me.finalchild.groovybukkit.GroovyBukkit
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
+import sun.plugin.dom.exception.InvalidStateException
 
 import java.nio.file.Files
 import java.nio.file.Path
 
-import static com.google.common.io.Files.*
+import static com.google.common.io.Files.getFileExtension
 
 class Host {
 
-    private final Map<String, Script> loadedScripts = new HashMap<>()
+    private final Map<String, Script> pscripts = [:]
+    private final Set<String> pscriptsBeingEvaled = new HashSet<>()
+    private final Set<String> pevaledScripts = new HashSet<>()
 
-    private final Map<String, ScriptLoader> scriptLoaders = new HashMap<>()
+    private final Map<String, ScriptLoader> pscriptLoaders = [:]
 
     void loadScripts(Path directory) {
         if (!Files.exists(directory)) {
@@ -71,31 +74,56 @@ class Host {
         if (isIdBeingUsed(script.id)) {
             throw new UnsupportedOperationException("Duplicate id: $script.id")
         }
-        loadedScripts.put(script.id, script)
+        scripts.put(script.id, script)
         return script
     }
 
     void evalScripts() {
-        loadedScripts.forEach { name, loadedScript ->
+        scripts.forEach { id, loadedScript ->
             try {
+                evalScript(id)
                 loadedScript.eval()
             } catch (Exception e) {
-                GroovyBukkit.instance.logger.severe("Failed to run a script: $name")
+                GroovyBukkit.instance.logger.severe("Failed to run a script: $id")
                 e.printStackTrace()
             }
         }
     }
 
+    void evalScript(String id) {
+        if (!(id in scripts)) {
+            throw new InvalidStateException('Tried to evaluate an unloaded script')
+        }
+        if (id in scriptsBeingEvaled) {
+            throw new InvalidStateException('Tried to evaluate a script which was already being evaluated')
+        }
+        if (id in evaledScripts) {
+            throw new InvalidStateException('Tried to evaluate an already evaluated script')
+        }
+        pscriptsBeingEvaled << id
+        scripts[id].eval()
+        this.pscriptsBeingEvaled.remove(id)
+        this.pevaledScripts << id
+    }
+
     Map<String, Script> getScripts() {
-        Collections.unmodifiableMap(loadedScripts)
+        Collections.unmodifiableMap(pscripts)
     }
 
     Optional<Script> getScript(String id) {
-        Optional.ofNullable(loadedScripts[id])
+        Optional.ofNullable(scripts[id])
+    }
+
+    Set<String> getScriptsBeingEvaled() {
+        Collections.unmodifiableSet(pscriptsBeingEvaled)
+    }
+
+    Set<String> getEvaledScripts() {
+        Collections.unmodifiableSet(pevaledScripts)
     }
 
     void onDisable() {
-        loadedScripts.values().each {
+        scripts.values().each {
             it.disable()
         }
     }
@@ -114,7 +142,7 @@ class Host {
 
     void addScriptLoader(ScriptLoader loader, Set<String> fileExtensions) {
         fileExtensions.each {
-            this.@scriptLoaders.put(it, loader)
+            this.pscriptLoaders.put(it, loader)
         }
     }
 
@@ -135,4 +163,5 @@ class Host {
 
         Optional.empty()
     }
+
 }

@@ -71,7 +71,7 @@ abstract class GBScript extends Script {
 
     @Override
     String toString() {
-        return "GBScript: ${getWrapper().id}"
+        "GBScript: $wrapper.id"
     }
 
 }

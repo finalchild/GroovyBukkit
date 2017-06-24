@@ -54,7 +54,7 @@ final class GBScriptWrapper implements FScript {
         dataFolder = file.parent.resolve(id)
         if (Files.exists(dataFolder)) {
             if (!Files.isDirectory(dataFolder)) {
-                throw new RuntimeException("Data folder for the script $id is not a directory!")
+                throw new IOException("Data folder for the script $id is not a directory!")
             }
         } else {
             Files.createDirectory(dataFolder)

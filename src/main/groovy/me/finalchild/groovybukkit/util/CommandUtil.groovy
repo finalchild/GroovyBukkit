@@ -49,9 +49,8 @@ final class CommandUtil {
         if (commandMap == null) {
             try {
                 Server server = Bukkit.getServer()
-                Field commandMapField
-                commandMapField = server.getClass().getDeclaredField('commandMap')
-                commandMapField.setAccessible(true)
+                Field commandMapField = server.getClass().getDeclaredField('commandMap')
+                commandMapField.accessible = true
                 commandMap = (CommandMap) commandMapField.get(server)
             } catch (Throwable t) {
                 throw new UnsupportedOperationException('commandMap reflection failed.', t)

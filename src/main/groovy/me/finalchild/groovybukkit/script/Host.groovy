@@ -31,6 +31,8 @@ import org.bukkit.plugin.Plugin
 import java.nio.file.Files
 import java.nio.file.Path
 
+import static com.google.common.io.Files.*
+
 class Host {
 
     private final Map<String, Script> loadedScripts = new HashMap<>()
@@ -52,7 +54,7 @@ class Host {
                 try {
                     loadScript(file)
                 } catch (Exception e) {
-                    GroovyBukkit.instance.logger.severe("Failed to load a file as a script: ${file.fileName}")
+                    GroovyBukkit.instance.logger.severe("Failed to load a file as a script: $file.fileName")
                     e.printStackTrace()
                 }
             }
@@ -61,24 +63,24 @@ class Host {
 
     Script loadScript(Path file) {
         loadScript(getScriptLoader(file).orElseThrow { ->
-            new UnsupportedOperationException("Could not find a ScriptLoader for the file: ${file.fileName}")
+            new UnsupportedOperationException("Could not find a ScriptLoader for the file: $file.fileName")
         }.loadScript(file, this))
     }
 
     Script loadScript(Script script) {
         if (isIdBeingUsed(script.id)) {
-            throw new UnsupportedOperationException("Duplicate id: ${script.id}")
+            throw new UnsupportedOperationException("Duplicate id: $script.id")
         }
         loadedScripts.put(script.id, script)
         return script
     }
 
     void evalScripts() {
-        for (Script loadedScript : loadedScripts.values()) {
+        loadedScripts.forEach { name, loadedScript ->
             try {
                 loadedScript.eval()
             } catch (Exception e) {
-                GroovyBukkit.instance.logger.severe("Failed to run a script: ${loadedScript.id}")
+                GroovyBukkit.instance.logger.severe("Failed to run a script: $name")
                 e.printStackTrace()
             }
         }
@@ -103,7 +105,7 @@ class Host {
     }
 
     Optional<ScriptLoader> getScriptLoader(Path file) {
-        getScriptLoader(com.google.common.io.Files.getFileExtension(file.toString()))
+        getScriptLoader(getFileExtension(file.toString()))
     }
 
     Optional<ScriptLoader> getScriptLoader(String fileExtension) {
@@ -121,13 +123,13 @@ class Host {
     }
 
     Optional<Object> getById(String id) {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(id)
+        Plugin plugin = Bukkit.pluginManager.getPlugin(id)
         if (plugin != null) {
             return Optional.of(plugin)
         }
 
         Optional<Script> optionalScript = getScript(id)
-        if (optionalScript.isPresent()) {
+        if (optionalScript.present) {
             return Optional.of(optionalScript.get())
         }
 

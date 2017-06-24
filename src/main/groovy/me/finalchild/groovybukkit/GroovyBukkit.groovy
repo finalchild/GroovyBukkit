@@ -26,6 +26,7 @@ package me.finalchild.groovybukkit
 
 import groovy.time.BaseDuration
 import groovy.time.TimeCategory
+import me.finalchild.groovybukkit.listener.PluginListener
 import me.finalchild.groovybukkit.script.Host
 import me.finalchild.groovybukkit.script.gb.GBScriptLoader
 import me.finalchild.groovybukkit.updater.LatestReleaseChecker
@@ -76,6 +77,8 @@ class GroovyBukkit extends JavaPlugin implements Listener {
 
     @Override
     void onEnable() {
+        server.pluginManager.registerEvents(new PluginListener(host), this)
+
         LatestReleaseChecker.latestRelease.ifPresent {
             logger.info("A new release($it.name) of GroovyBukkit is found!")
             logger.info("Update now: $it.url")

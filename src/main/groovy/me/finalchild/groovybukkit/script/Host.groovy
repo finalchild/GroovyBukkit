@@ -26,21 +26,34 @@ package me.finalchild.groovybukkit.script
 
 import me.finalchild.groovybukkit.GroovyBukkit
 import org.bukkit.Bukkit
+import org.bukkit.event.server.PluginEnableEvent
 import org.bukkit.plugin.Plugin
-import sun.plugin.dom.exception.InvalidStateException
 
 import java.nio.file.Files
 import java.nio.file.Path
 
 import static com.google.common.io.Files.getFileExtension
+import static me.finalchild.groovybukkit.extension.Util.on
 
 class Host {
 
+    {
+        on(PluginEnableEvent) {
+            if (requireMap.containsKey(event.plugin.name)) {
+                Set<String> require = requireMap.remove(event.plugin.name)
+                require.forEach { id ->
+                    evalScript(id)
+                }
+            }
+        }
+    }
+
     private final Map<String, Script> pscripts = [:]
-    private final Set<String> pscriptsBeingEvaled = new HashSet<>()
-    private final Set<String> pevaledScripts = new HashSet<>()
+    private final Map<String, ScriptStatus> pscriptStatuses = [:]
 
     private final Map<String, ScriptLoader> pscriptLoaders = [:]
+
+    private final Map<String, Set<String>> requireMap = [:]
 
     void loadScripts(Path directory) {
         if (!Files.exists(directory)) {
@@ -74,36 +87,97 @@ class Host {
         if (isIdBeingUsed(script.id)) {
             throw new UnsupportedOperationException("Duplicate id: $script.id")
         }
-        scripts.put(script.id, script)
+        pscripts.put(script.id, script)
+        pscriptStatuses.put(script.id, ScriptStatus.LOADED)
         return script
     }
 
     void evalScripts() {
         scripts.forEach { id, loadedScript ->
-            try {
-                evalScript(id)
-                loadedScript.eval()
-            } catch (Exception e) {
-                GroovyBukkit.instance.logger.severe("Failed to run a script: $id")
-                e.printStackTrace()
-            }
+            evalScript(id)
         }
     }
 
-    void evalScript(String id) {
+    Script evalScript(String id) {
+        try {
+            return evalScriptRaw(id)
+        } catch (DependencyNotEnabledException e) {
+            GroovyBukkit.instance.logger.info("DependencyNotEnabledException was caught: $id")
+
+            Set require = requireMap[e.dependencyId]
+
+            if (require == null) {
+                requireMap[e.dependencyId] = Collections.singleton(id)
+            } else {
+                require = new HashSet<String>(require)
+                require.add(id)
+                requireMap[e.dependencyId] = require
+            }
+
+            return scripts[id]
+        } catch (Exception e) {
+            GroovyBukkit.instance.logger.severe("Failed to run a script: $id")
+            e.printStackTrace()
+            return scripts[id]
+        }
+    }
+
+    Script evalScriptRaw(String id) {
         if (!(id in scripts)) {
-            throw new InvalidStateException('Tried to evaluate an unloaded script')
+            throw new IllegalStateException('Tried to evaluate an unloaded script')
         }
-        if (id in scriptsBeingEvaled) {
-            throw new InvalidStateException('Tried to evaluate a script which was already being evaluated')
+        if (scriptStatuses[id] == ScriptStatus.EVALING) {
+            throw new IllegalStateException('Tried to evaluate a script which is already being evaluated')
         }
-        if (id in evaledScripts) {
-            throw new InvalidStateException('Tried to evaluate an already evaluated script')
+        if (scriptStatuses[id] == ScriptStatus.EVALED) {
+            return scripts[id]
         }
-        pscriptsBeingEvaled << id
-        scripts[id].eval()
-        this.pscriptsBeingEvaled.remove(id)
-        this.pevaledScripts << id
+
+
+        Script script = scripts[id]
+
+        pscriptStatuses[id] = ScriptStatus.EVALING
+        try {
+            script.eval()
+        } catch (Exception e) {
+            pscriptStatuses[id] = ScriptStatus.LOADED
+            throw e
+        }
+        pscriptStatuses[id] = ScriptStatus.EVALED
+
+        if (requireMap.containsKey(id)) {
+            Set<String> require = requireMap.remove(id)
+            require.forEach { dependingScript ->
+                evalScript(dependingScript)
+            }
+        }
+
+        return script
+    }
+
+    Object require(String id) {
+        getScriptStatus(id).ifPresent { status ->
+            switch (status) {
+                case ScriptStatus.LOADED:
+                    Script script = evalScriptRaw(id)
+                    if (getScriptStatus(id).get() == ScriptStatus.EVALED) {
+                        return script
+                    } else {
+                        throw new DependencyNotEnabledException(id)
+                    }
+                    break
+                case ScriptStatus.EVALING:
+                    throw new IllegalStateException('Circular dependency found!')
+                case ScriptStatus.EVALED:
+                    return scripts[id]
+            }
+        }
+
+        if (Bukkit.pluginManager.isPluginEnabled(id)) {
+            return Bukkit.pluginManager.getPlugin(id)
+        } else {
+            throw new DependencyNotEnabledException(id)
+        }
     }
 
     Map<String, Script> getScripts() {
@@ -114,18 +188,12 @@ class Host {
         Optional.ofNullable(scripts[id])
     }
 
-    Set<String> getScriptsBeingEvaled() {
-        Collections.unmodifiableSet(pscriptsBeingEvaled)
+    Map<String, ScriptStatus> getScriptStatuses() {
+        Collections.unmodifiableMap(pscriptStatuses)
     }
 
-    Set<String> getEvaledScripts() {
-        Collections.unmodifiableSet(pevaledScripts)
-    }
-
-    void onDisable() {
-        scripts.values().each {
-            it.disable()
-        }
+    Optional<ScriptStatus> getScriptStatus(String id) {
+        Optional.ofNullable(scriptStatuses[id])
     }
 
     Map<String, ScriptLoader> getScriptLoaders() {
@@ -147,7 +215,7 @@ class Host {
     }
 
     boolean isIdBeingUsed(String id) {
-        Bukkit.getPluginManager().getPlugin(id) != null || scripts.containsKey(id)
+        Bukkit.pluginManager.getPlugin(id) != null || scripts.containsKey(id)
     }
 
     Optional<Object> getById(String id) {
@@ -162,6 +230,12 @@ class Host {
         }
 
         Optional.empty()
+    }
+
+    void onDisable() {
+        scripts.values().each {
+            it.disable()
+        }
     }
 
 }

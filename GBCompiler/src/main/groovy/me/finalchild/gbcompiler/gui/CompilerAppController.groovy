@@ -55,8 +55,8 @@ class CompilerAppController {
         new GBCompiler(
                 file: file,
                 targetFile: target,
-                id: Files.getNameWithoutExtension(file.toString()),
-                name: Files.getNameWithoutExtension(file.toString()),
+                id: Files.getNameWithoutExtension(file.toAbsolutePath().toString()),
+                name: Files.getNameWithoutExtension(file.toAbsolutePath().toString()),
                 version: '1.0.0-SNAPSHOT'
         ).run()
     }

@@ -37,7 +37,7 @@ import static me.finalchild.groovybukkit.extension.Util.on
 
 class Host {
 
-    {
+    void initDependencyHandler() {
         on(PluginEnableEvent) {
             if (requireMap.containsKey(event.plugin.name)) {
                 Set<String> require = requireMap.remove(event.plugin.name)
@@ -197,11 +197,11 @@ class Host {
     }
 
     Map<String, ScriptLoader> getScriptLoaders() {
-        Collections.unmodifiableMap(scriptLoaders)
+        Collections.unmodifiableMap(pscriptLoaders)
     }
 
     Optional<ScriptLoader> getScriptLoader(Path file) {
-        getScriptLoader(getFileExtension(file.toString()))
+        getScriptLoader(getFileExtension(file.toAbsolutePath().toString()))
     }
 
     Optional<ScriptLoader> getScriptLoader(String fileExtension) {

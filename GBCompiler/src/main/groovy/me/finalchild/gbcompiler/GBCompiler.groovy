@@ -42,6 +42,8 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.util.jar.JarEntry
 import java.util.jar.JarOutputStream
 
+import static com.google.common.io.Files.getNameWithoutExtension
+
 class GBCompiler {
 
     Path file
@@ -104,7 +106,7 @@ class GBCompiler {
 
     void add(Path source, JarOutputStream target) throws IOException {
         if (Files.isDirectory(source)) {
-            String name = tempDir.relativize(source).toString().replace("\\", "/")
+            String name = tempDir.relativize(source).toAbsolutePath().toString().replace("\\", "/")
             if (!name.isEmpty()) {
                 if (!name.endsWith("/")) {
                     name += "/"
@@ -117,7 +119,7 @@ class GBCompiler {
 
             source.eachFile { Path path -> add path, target }
         } else {
-            JarEntry entry = new JarEntry(tempDir.relativize(source).toString().replace("\\", "/"))
+            JarEntry entry = new JarEntry(tempDir.relativize(source).toAbsolutePath().toString().replace("\\", "/"))
             entry.time = Files.getLastModifiedTime(source).toMillis()
             target.putNextEntry(entry)
 
@@ -179,8 +181,8 @@ class GBCompiler {
             new GBCompiler(
                     file: file,
                     targetFile: target,
-                    id: com.google.common.io.Files.getNameWithoutExtension(file.toString()),
-                    name: options.valueOf('name') ?: com.google.common.io.Files.getNameWithoutExtension(file.toString()),
+                    id: getNameWithoutExtension(file.toAbsolutePath().toString()),
+                    name: options.valueOf('name') ?: getNameWithoutExtension(file.toAbsolutePath().toString()),
                     version: options.valueOf('version'),
                     description: options.valueOf('description'),
                     author: options.valueOf('author'),

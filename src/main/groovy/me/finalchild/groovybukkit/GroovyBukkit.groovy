@@ -80,7 +80,7 @@ class GroovyBukkit extends JavaPlugin implements Listener {
             logger.info("A new release($it.name) of GroovyBukkit is found!")
             logger.info("Update now: $it.url")
         }
-
+        host.initDependencyHandler()
         host.loadScripts(dataFolder.toPath())
         host.evalScripts()
     }

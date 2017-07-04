@@ -27,13 +27,9 @@ package me.finalchild.groovybukkit
 import groovy.time.BaseDuration
 import groovy.time.TimeCategory
 import me.finalchild.groovybukkit.command.ExeCommand
-import me.finalchild.groovybukkit.gshell.GShell
 import me.finalchild.groovybukkit.script.Host
 import me.finalchild.groovybukkit.script.gb.GBScriptLoader
 import me.finalchild.groovybukkit.updater.LatestReleaseChecker
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 

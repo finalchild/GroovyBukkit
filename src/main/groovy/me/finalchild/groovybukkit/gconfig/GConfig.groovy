@@ -30,8 +30,18 @@ import java.nio.file.DirectoryStream
 import java.nio.file.Files
 import java.nio.file.Path
 
+/**
+ * Loads Groovy coded config files
+ */
 class GConfig {
 
+    private GConfig() {}
+
+    /**
+     * Loads all Groovy files in a directory
+     * @param directory The directory
+     * @return A Map of files' Paths and loaded objects
+     */
     static <T> Map<Path, T> loadDir(Path directory) {
         return Files.newDirectoryStream(directory, new DirectoryStream.Filter<Path>() {
             boolean accept(Path file) throws IOException {
@@ -44,6 +54,11 @@ class GConfig {
         }
     }
 
+    /**
+     * Loads a Groovy file
+     * @param files The file
+     * @return The loaded object
+     */
     static <T> T loadConfig(Path file) {
         (T) file.withReader('UTF-8') { reader ->
             GShell.shell.evaluate(reader)

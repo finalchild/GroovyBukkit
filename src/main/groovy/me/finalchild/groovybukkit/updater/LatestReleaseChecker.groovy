@@ -31,7 +31,12 @@ import me.finalchild.groovybukkit.GroovyBukkit
 
 import javax.net.ssl.HttpsURLConnection
 
+/**
+ * Checks latest releases
+ */
 class LatestReleaseChecker {
+
+    private LatestReleaseChecker() {}
 
     private static URL url = new URL('https://api.github.com/repos/finalchild/GroovyBukkit/releases/latest')
 
@@ -71,6 +76,9 @@ class LatestReleaseChecker {
 
     }
 
+    /**
+     * Represents a version release information
+     */
     @ToString
     static class ReleaseInfo {
         String url

@@ -27,10 +27,19 @@ package me.finalchild.groovybukkit.gshell
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
+/**
+ * An util class to provide a GroovyShell instance
+ */
 class GShell {
+
+    private GShell() {}
 
     private static GroovyShell pshell
 
+    /**
+     * Returns the GroovyShell to use
+     * @return the GroovyShell instance
+     */
     static GroovyShell getShell() {
         if (pshell == null) {
             CompilerConfiguration config = new CompilerConfiguration()

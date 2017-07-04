@@ -79,7 +79,7 @@ class ExeCommand implements CommandExecutor {
             Object existingSender = shell.getVariable('sender')
             shell.setVariable('sender', sender)
             try {
-                sender.sendMessage("${ChatColor.GOLD}Execution Result: ${ChatColor.WHITE}${shell.evaluate(addLastCodeAndReturnJoined(sender, code)).toString()}")
+                sender.sendMessage("${ChatColor.GOLD}Evaluation Result: ${ChatColor.WHITE}${shell.evaluate(addLastCodeAndReturnJoined(sender, code)).toString()}")
             } catch (Throwable t) {
                 sender.sendMessage("${ChatColor.DARK_RED}Something went wrong!")
                 sender.sendMessage("${ChatColor.DARK_RED}${t}")

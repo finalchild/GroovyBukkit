@@ -48,7 +48,11 @@ repositories {
 
 dependencies {
     compile 'org.bukkit:bukkit:1.12-R0.1-SNAPSHOT'
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12:indy'
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.optimizationOptions.indy = true
 }
 
 processResources {

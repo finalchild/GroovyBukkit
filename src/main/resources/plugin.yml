@@ -3,3 +3,14 @@ version: ${version}
 description: ${description}
 author: Final Child
 main: me.finalchild.groovybukkit.GroovyBukkit
+commands:
+  groovyexe:
+    description: Executes the Groovy code
+    aliases: [gexe, /gb]
+    permissions: groovybukkit.exe
+    permission-message: "You do not have the permission: <permission>"
+    usage: "Usage: //gb <code>"
+permissions:
+  groovybukkit.exe:
+    description: Allows you to execute Groovy codes
+    default: false

@@ -27,8 +27,6 @@ package me.finalchild.groovybukkit.extension.inventory
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import org.codehaus.groovy.runtime.DefaultGroovyMethodsSupport
-import org.codehaus.groovy.runtime.RangeInfo
 
 /**
  * Extends {@link Inventory}.

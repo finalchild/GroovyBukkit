@@ -7,7 +7,7 @@ commands:
   groovyexe:
     description: Executes the Groovy code
     aliases: [gexe, /gb]
-    permissions: groovybukkit.exe
+    permission: groovybukkit.exe
     permission-message: "You do not have the permission: <permission>"
     usage: "Usage: //gb <code>"
 permissions:

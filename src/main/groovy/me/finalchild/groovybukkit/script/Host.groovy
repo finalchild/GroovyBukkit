@@ -69,7 +69,8 @@ class Host {
             if (!Files.isDirectory(file)) {
                 try {
                     loadScript(file)
-                } catch (Exception e) {
+                } catch (ScriptLoaderNotFoundException ignored) {
+                } catch (Throwable e) {
                     GroovyBukkit.instance.logger.severe("Failed to load a file as a script: $file.fileName")
                     e.printStackTrace()
                 }
@@ -79,7 +80,7 @@ class Host {
 
     Script loadScript(Path file) {
         loadScript(getScriptLoader(file).orElseThrow { ->
-            new UnsupportedOperationException("Could not find a ScriptLoader for the file: $file.fileName")
+            new ScriptLoaderNotFoundException(file)
         }.loadScript(file, this))
     }
 

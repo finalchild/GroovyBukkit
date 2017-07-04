@@ -77,9 +77,12 @@ class GroovyBukkit extends JavaPlugin implements Listener {
 
     @Override
     void onEnable() {
-        LatestReleaseChecker.latestRelease.ifPresent {
-            logger.info("A new release($it.name) of GroovyBukkit is found!")
-            logger.info("Update now: $it.url")
+        saveDefaultConfig()
+        if (config['check-updates']) {
+            LatestReleaseChecker.latestRelease.ifPresent {
+                logger.info("A new release($it.name) of GroovyBukkit is found!")
+                logger.info("Update now: $it.url")
+            }
         }
 
         getCommand('groovyexe').executor = new ExeCommand()

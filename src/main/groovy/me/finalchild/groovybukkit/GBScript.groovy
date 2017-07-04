@@ -69,6 +69,14 @@ abstract class GBScript extends Script {
         if (pconfig != null) pconfig.save(configPath.toFile())
     }
 
+    Path getDataFolder() {
+        wrapper.dataFolder
+    }
+
+    Object require(String id) {
+        wrapper.host.require(id)
+    }
+
     @Override
     String toString() {
         "GBScript: $wrapper.id"

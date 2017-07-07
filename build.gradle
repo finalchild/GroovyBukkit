@@ -34,7 +34,7 @@ apply plugin: 'maven-publish'
 defaultTasks 'clean', 'build', 'createExe'
 
 group 'me.finalchild'
-version '1.1.2'
+version '1.2.0-SNAPSHOT'
 
 description 'A Bukkit plugin to support writing scripts and plugins using Groovy.'
 
@@ -47,8 +47,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.bukkit:bukkit:1.11.2-R0.1-SNAPSHOT'
-    compile 'org.codehaus.groovy:groovy-all:2.4.8'
+    compile 'org.bukkit:bukkit:1.12-R0.1-SNAPSHOT'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12:indy'
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.optimizationOptions.indy = true
 }
 
 processResources {
@@ -57,6 +61,12 @@ processResources {
             version: project.version,
             description: project.description
     )
+}
+
+groovydoc {
+    link 'https://docs.oracle.com/javase/8/docs/api/', 'java', 'javax'
+    link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy', 'org.codehaus.groovy'
+    link 'https://hub.spigotmc.org/javadocs/bukkit/', 'org.bukkit'
 }
 
 shadowJar {

@@ -26,29 +26,23 @@ package me.finalchild.groovybukkit.script.gb
 
 import me.finalchild.groovybukkit.GBScript
 import me.finalchild.groovybukkit.GroovyBukkit
+import me.finalchild.groovybukkit.gshell.GShell
 import me.finalchild.groovybukkit.script.Host
 import me.finalchild.groovybukkit.script.Script as FScript
 import me.finalchild.groovybukkit.script.ScriptLoader
 import org.codehaus.groovy.control.CompilerConfiguration
-import org.codehaus.groovy.control.customizers.ImportCustomizer
 
 import java.nio.file.Path
 
 final class GBScriptLoader implements ScriptLoader {
 
-    GroovyScriptEngine engine = new GroovyScriptEngine(GroovyBukkit.instance.dataFolder.toURI().toURL())
+    final static GroovyScriptEngine engine = new GroovyScriptEngine(GroovyBukkit.instance.dataFolder.toURI().toURL())
 
     GBScriptLoader() {
-        CompilerConfiguration config = new CompilerConfiguration()
-        config.setScriptBaseClass GBScript.name
-        config.sourceEncoding = 'UTF-8'
+        CompilerConfiguration config = GShell.newCompilerConfig()
+        config.scriptBaseClass = GBScript.name
 
-        ImportCustomizer customizer = new ImportCustomizer()
-        customizer.addStarImports 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.block', 'org.bukkit.entity', 'org.bukkit.generator', 'org.bukkit.util.noise', 'org.bukkit.material', 'org.bukkit.configuration.file', 'org.bukkit.plugin.java', 'org.bukkit.conversations', 'org.bukkit.plugin.messaging', 'org.bukkit', 'org.bukkit.inventory.meta', 'org.bukkit.scheduler', 'org.bukkit.configuration', 'org.bukkit.material.types', 'org.bukkit.projectiles', 'org.bukkit.util', 'org.bukkit.enchantments', 'org.bukkit.boss', 'org.bukkit.event.hanging', 'org.bukkit.permissions', 'org.bukkit.command.defaults', 'org.bukkit.potion', 'org.bukkit.util.permissions', 'org.bukkit.event.block', 'org.bukkit.event.inventory', 'org.bukkit.util.io', 'org.bukkit.event.player', 'org.bukkit.command', 'org.bukkit.inventory', 'org.bukkit.help', 'org.bukkit.plugin', 'org.bukkit.event.vehicle', 'org.bukkit.event', 'org.bukkit.attribute', 'org.bukkit.configuration.serialization', 'org.bukkit.scoreboard', 'org.bukkit.event.server', 'org.bukkit.map', 'org.bukkit.entity.minecart', 'org.bukkit.block.banner', 'org.bukkit.metadata', 'org.bukkit.event.entity', 'org.bukkit.event.weather', 'org.bukkit.event.world', 'org.bukkit.event.enchantment'
-        customizer.addStaticStars 'me.finalchild.groovybukkit.extension.Util', 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.Material'
-        config.addCompilationCustomizers customizer
-
-        engine.setConfig config
+        engine.config = config
     }
 
     @Override

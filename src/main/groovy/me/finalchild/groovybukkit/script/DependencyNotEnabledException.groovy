@@ -22,21 +22,20 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.configuration
-
-import org.bukkit.configuration.ConfigurationSection
+package me.finalchild.groovybukkit.script
 
 /**
- * Extends {@link ConfigurationSection}.
+ * An exception thrown when a dependency plugin is not yet enabled.
  */
-class ConfigurationSectionExtension {
+class DependencyNotEnabledException extends IllegalStateException {
 
-    static <T> T getAt(ConfigurationSection self, String path) {
-        (T) self.get(path)
-    }
+    /**
+     * The id of the dependency
+     */
+    String dependencyId
 
-    static void putAt(ConfigurationSection self, String path, Object value) {
-        self.set(path, value)
+    DependencyNotEnabledException(String dependencyId) {
+        this.dependencyId = dependencyId
     }
 
 }

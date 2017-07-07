@@ -22,64 +22,47 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit
+package me.finalchild.groovybukkit.gconfig
 
-import me.finalchild.groovybukkit.script.gb.GBScriptWrapper
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
+import me.finalchild.groovybukkit.gshell.GShell
 
+import java.nio.file.DirectoryStream
+import java.nio.file.Files
 import java.nio.file.Path
 
-abstract class GBScript extends Script {
+/**
+ * Loads Groovy coded config files
+ */
+final class GConfig {
 
-    abstract void onEnable()
+    private GConfig() {}
 
-    private GBScriptWrapper pwrapper
-    private FileConfiguration pconfig
-
-    @Override
-    Object run() {
-        onEnable()
-        null
-    }
-
-    GBScriptWrapper getWrapper() {
-        if (pwrapper == null) {
-            pwrapper = binding.getVariable("wrapper") as GBScriptWrapper
+    /**
+     * Loads all Groovy files in a directory
+     * @param directory The directory
+     * @return A Map of files' Paths and loaded objects
+     */
+    static <T> Map<Path, T> loadDir(Path directory) {
+        return Files.newDirectoryStream(directory, new DirectoryStream.Filter<Path>() {
+            boolean accept(Path file) throws IOException {
+                if (Files.isDirectory(file)) return false
+                String extension = com.google.common.io.Files.getFileExtension(file.toAbsolutePath().toString())
+                extension == 'groovy' || extension == 'gvy' || extension == 'gy' || extension == 'gvy'
+            }
+        }).withCloseable {
+            it.collectEntries { file -> [file, loadConfig(file)] }
         }
-        pwrapper
     }
 
-    Path getConfigPath() {
-        wrapper.dataFolder.resolve("config.yml")
-    }
-
-    FileConfiguration getConfig() {
-        if (pconfig == null) {
-            reloadConfig()
+    /**
+     * Loads a Groovy file
+     * @param files The file
+     * @return The loaded object
+     */
+    static <T> T loadConfig(Path file) {
+        (T) file.withReader('UTF-8') { reader ->
+            GShell.shell.evaluate(reader)
         }
-        pconfig
-    }
-
-    void reloadConfig() {
-        pconfig = YamlConfiguration.loadConfiguration(configPath.toFile())
-    }
-
-    void saveConfig() {
-        if (pconfig != null) pconfig.save(configPath.toFile())
-    }
-
-    Path getDataFolder() {
-        wrapper.dataFolder
-    }
-
-    Object require(String id) {
-        wrapper.host.require(id)
-    }
-
-    @Override
-    String toString() {
-        "GBScript: $wrapper.id"
     }
 
 }

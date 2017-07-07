@@ -28,6 +28,7 @@ import joptsimple.OptionParser
 import joptsimple.OptionSet
 import me.finalchild.gbcompiler.gui.CompilerApp
 import me.finalchild.groovybukkit.GBScript
+import me.finalchild.groovybukkit.gshell.GShell
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ASTTransformationCustomizer
 import org.codehaus.groovy.control.customizers.ImportCustomizer
@@ -41,6 +42,8 @@ import java.nio.file.SimpleFileVisitor
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.jar.JarEntry
 import java.util.jar.JarOutputStream
+
+import static com.google.common.io.Files.getNameWithoutExtension
 
 class GBCompiler {
 
@@ -57,19 +60,13 @@ class GBCompiler {
     String website
 
     void compile() {
-        CompilerConfiguration config = new CompilerConfiguration()
+        CompilerConfiguration config = GShell.newCompilerConfig()
         config.classpathList = ['lib/*']
-        config.sourceEncoding = 'utf-8'
         config.setScriptBaseClass GBScript.name
         config.targetDirectory = tempDir.toFile()
 
-        ImportCustomizer importCustomizer = new ImportCustomizer()
-        importCustomizer.addStarImports 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.block', 'org.bukkit.entity', 'org.bukkit.generator', 'org.bukkit.util.noise', 'org.bukkit.material', 'org.bukkit.configuration.file', 'org.bukkit.plugin.java', 'org.bukkit.conversations', 'org.bukkit.plugin.messaging', 'org.bukkit', 'org.bukkit.inventory.meta', 'org.bukkit.scheduler', 'org.bukkit.configuration', 'org.bukkit.material.types', 'org.bukkit.projectiles', 'org.bukkit.util', 'org.bukkit.enchantments', 'org.bukkit.boss', 'org.bukkit.event.hanging', 'org.bukkit.permissions', 'org.bukkit.command.defaults', 'org.bukkit.potion', 'org.bukkit.util.permissions', 'org.bukkit.event.block', 'org.bukkit.event.inventory', 'org.bukkit.util.io', 'org.bukkit.event.player', 'org.bukkit.command', 'org.bukkit.inventory', 'org.bukkit.help', 'org.bukkit.plugin', 'org.bukkit.event.vehicle', 'org.bukkit.event', 'org.bukkit.attribute', 'org.bukkit.configuration.serialization', 'org.bukkit.scoreboard', 'org.bukkit.event.server', 'org.bukkit.map', 'org.bukkit.entity.minecart', 'org.bukkit.block.banner', 'org.bukkit.metadata', 'org.bukkit.event.entity', 'org.bukkit.event.weather', 'org.bukkit.event.world', 'org.bukkit.event.enchantment'
-        importCustomizer.addStaticStars 'me.finalchild.groovybukkit.extension.Util', 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.Material'
-        config.addCompilationCustomizers importCustomizer
-
         ASTTransformationCustomizer astCustomizer = new ASTTransformationCustomizer(new Transformer())
-        config.addCompilationCustomizers astCustomizer
+        config.addCompilationCustomizers(astCustomizer)
 
         Compiler compiler = new Compiler(config)
         compiler.compile(file.toFile())
@@ -104,7 +101,7 @@ class GBCompiler {
 
     void add(Path source, JarOutputStream target) throws IOException {
         if (Files.isDirectory(source)) {
-            String name = tempDir.relativize(source).toString().replace("\\", "/")
+            String name = tempDir.relativize(source).toAbsolutePath().toString().replace("\\", "/")
             if (!name.isEmpty()) {
                 if (!name.endsWith("/")) {
                     name += "/"
@@ -117,7 +114,7 @@ class GBCompiler {
 
             source.eachFile { Path path -> add path, target }
         } else {
-            JarEntry entry = new JarEntry(tempDir.relativize(source).toString().replace("\\", "/"))
+            JarEntry entry = new JarEntry(tempDir.relativize(source).toAbsolutePath().toString().replace("\\", "/"))
             entry.time = Files.getLastModifiedTime(source).toMillis()
             target.putNextEntry(entry)
 
@@ -179,8 +176,8 @@ class GBCompiler {
             new GBCompiler(
                     file: file,
                     targetFile: target,
-                    id: com.google.common.io.Files.getNameWithoutExtension(file.toString()),
-                    name: options.valueOf('name') ?: com.google.common.io.Files.getNameWithoutExtension(file.toString()),
+                    id: getNameWithoutExtension(file.toAbsolutePath().toString()),
+                    name: options.valueOf('name') ?: getNameWithoutExtension(file.toAbsolutePath().toString()),
                     version: options.valueOf('version'),
                     description: options.valueOf('description'),
                     author: options.valueOf('author'),

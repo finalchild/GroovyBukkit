@@ -31,7 +31,12 @@ import me.finalchild.groovybukkit.GroovyBukkit
 
 import javax.net.ssl.HttpsURLConnection
 
+/**
+ * Checks latest releases
+ */
 class LatestReleaseChecker {
+
+    private LatestReleaseChecker() {}
 
     private static URL url = new URL('https://api.github.com/repos/finalchild/GroovyBukkit/releases/latest')
 
@@ -54,10 +59,10 @@ class LatestReleaseChecker {
         switch (connection.responseCode) {
             case HttpsURLConnection.HTTP_OK:
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.inputStream))
-                JsonObject o = new JsonParser().parse reader asJsonObject
+                JsonObject o = new JsonParser().parse(reader).asJsonObject
 
                 String version1 = GroovyBukkit.instance.description.version
-                String version2 = o.getAsJsonPrimitive 'tag_name' asString
+                String version2 = o.getAsJsonPrimitive('tag_name').asString
                 version2 = version2.substring(1, version2.length())
 
                 if (version1 != version2) {
@@ -71,9 +76,13 @@ class LatestReleaseChecker {
 
     }
 
+    /**
+     * Represents a version release information
+     */
     @ToString
     static class ReleaseInfo {
         String url
         String name
     }
+
 }

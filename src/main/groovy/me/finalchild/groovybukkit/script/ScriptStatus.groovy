@@ -22,21 +22,12 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.configuration
+package me.finalchild.groovybukkit.script
 
-import org.bukkit.configuration.ConfigurationSection
+enum ScriptStatus {
 
-/**
- * Extends {@link ConfigurationSection}.
- */
-class ConfigurationSectionExtension {
-
-    static <T> T getAt(ConfigurationSection self, String path) {
-        (T) self.get(path)
-    }
-
-    static void putAt(ConfigurationSection self, String path, Object value) {
-        self.set(path, value)
-    }
+    LOADED,
+    EVALING,
+    EVALED
 
 }

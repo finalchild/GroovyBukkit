@@ -60,26 +60,15 @@ class Util {
      * @param closure executor closure to register
      */
     static <T extends Event> void on(
-            @DelegatesTo.Target Class<T> event, EventPriority priority,
+            @DelegatesTo.Target Class<T> event, EventPriority priority = EventPriority.NORMAL,
             @DelegatesTo(genericTypeIndex = 0) Closure closure) {
         Bukkit.getPluginManager().registerEvent(event, GroovyBukkit.instance, priority, new EventExecutor() {
             @Override
             void execute(Listener listener, Event eventObj) throws EventException {
                 closure.setDelegate(eventObj)
-                closure()
+                closure(eventObj)
             }
         }, GroovyBukkit.instance)
-    }
-
-    /**
-     * Registers the specified executor to the given event class
-     *
-     * @param event Event type to register
-     * @param closure executor closure to register
-     */
-    static <T extends Event> void on(
-            @DelegatesTo.Target Class<T> event, @DelegatesTo(genericTypeIndex = 0) Closure closure) {
-        on(event, EventPriority.NORMAL, closure)
     }
 
     /**
@@ -130,7 +119,7 @@ class Util {
             @Override
             boolean execute(CommandSender sender, String commandLabel, String[] args) {
                 closure.delegate = new OnCommandDelegate(sender: sender, label: commandLabel, args: args)
-                closure()
+                closure(args)
             }
         })
     }
@@ -154,7 +143,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask runTask(Closure<Void> task) {
+    static BukkitTask runTask(Closure task) {
         Bukkit.getScheduler().runTask(GroovyBukkit.instance, task)
     }
 
@@ -167,7 +156,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask async(Closure<Void> task) {
+    static BukkitTask async(Closure task) {
         Bukkit.getScheduler().runTaskAsynchronously(GroovyBukkit.instance, task)
     }
 
@@ -179,7 +168,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask later(long delay, Closure<Void> task) {
+    static BukkitTask later(long delay, Closure task) {
         Bukkit.getScheduler().runTaskLater(GroovyBukkit.instance, task, delay)
     }
 
@@ -191,7 +180,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask later(Duration delay, Closure<Void> task) {
+    static BukkitTask later(Duration delay, Closure task) {
         later(delay.toMilliseconds() / 50 as long, task)
     }
 
@@ -206,7 +195,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask laterAsync(long delay, Closure<Void> task) {
+    static BukkitTask laterAsync(long delay, Closure task) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(GroovyBukkit.instance, task, delay)
     }
 
@@ -221,7 +210,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask laterAsync(Duration delay, Closure<Void> task) {
+    static BukkitTask laterAsync(Duration delay, Closure task) {
         laterAsync(delay.toMilliseconds() / 50 as long, task)
     }
 
@@ -234,7 +223,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask timer(long delay, long period, Closure<Void> task) {
+    static BukkitTask timer(long delay, long period, Closure task) {
         Bukkit.getScheduler().runTaskTimer(GroovyBukkit.instance, task, delay, period)
     }
 
@@ -247,7 +236,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask timer(Duration delay, Duration period, Closure<Void> task) {
+    static BukkitTask timer(Duration delay, Duration period, Closure task) {
         timer(delay.toMilliseconds() / 50 as long, period.toMilliseconds() / 50 as long, task)
     }
 
@@ -263,7 +252,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask timerAsync(long delay, long period, Closure<Void> task) {
+    static BukkitTask timerAsync(long delay, long period, Closure task) {
         Bukkit.getScheduler().runTaskTimerAsynchronously(GroovyBukkit.instance, task, delay, period)
     }
 
@@ -279,7 +268,7 @@ class Util {
      * @param task the task to be run
      * @return a BukkitTask that contains the id number
      */
-    static BukkitTask timerAsync(Duration delay, Duration period, Closure<Void> task) {
+    static BukkitTask timerAsync(Duration delay, Duration period, Closure task) {
         timerAsync(delay.toMilliseconds() / 50 as long, period.toMilliseconds() / 50 as long, task)
     }
 

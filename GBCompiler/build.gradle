@@ -57,6 +57,11 @@ dependencies {
     compile 'net.sf.jopt-simple:jopt-simple:6.0-alpha-1'
 }
 
+groovydoc {
+    link 'https://docs.oracle.com/javase/8/docs/api/', 'java', 'javax'
+    link 'https://hub.spigotmc.org/javadocs/bukkit/', 'org.bukkit'
+}
+
 shadowJar {
     mergeServiceFiles()
     mergeGroovyExtensionModules()

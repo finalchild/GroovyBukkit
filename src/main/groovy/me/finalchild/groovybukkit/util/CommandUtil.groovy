@@ -29,6 +29,7 @@ import org.bukkit.Server
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 
+import javax.management.ReflectionException
 import java.lang.reflect.Field
 
 /**
@@ -36,8 +37,7 @@ import java.lang.reflect.Field
  */
 final class CommandUtil {
 
-    private CommandUtil() {
-    }
+    private CommandUtil() {}
 
     private static CommandMap commandMap
 
@@ -47,14 +47,10 @@ final class CommandUtil {
      */
     static CommandMap getCommandMap() {
         if (commandMap == null) {
-            try {
-                Server server = Bukkit.getServer()
-                Field commandMapField = server.getClass().getDeclaredField('commandMap')
-                commandMapField.accessible = true
-                commandMap = (CommandMap) commandMapField.get(server)
-            } catch (Throwable t) {
-                throw new UnsupportedOperationException('commandMap reflection failed.', t)
-            }
+            Server server = Bukkit.server
+            Field commandMapField = server.class.getDeclaredField('commandMap')
+            commandMapField.accessible = true
+            commandMap = (CommandMap) commandMapField.get(server)
         }
         return commandMap
     }
@@ -80,7 +76,7 @@ final class CommandUtil {
      *     times
      */
     static boolean register(String fallbackPrefix, Command command) {
-        getCommandMap().register(fallbackPrefix, command)
+        commandMap.register(fallbackPrefix, command)
     }
 
 }

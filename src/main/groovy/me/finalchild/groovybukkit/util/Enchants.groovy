@@ -29,7 +29,7 @@ import org.bukkit.enchantments.Enchantment
 /**
  * Redirects to {@link Enchantment}s by its displayed name.
  */
-class Enchants {
+final class Enchants {
 
     private Enchants() {}
 

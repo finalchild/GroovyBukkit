@@ -33,7 +33,7 @@ import java.nio.file.Path
 /**
  * Loads Groovy coded config files
  */
-class GConfig {
+final class GConfig {
 
     private GConfig() {}
 

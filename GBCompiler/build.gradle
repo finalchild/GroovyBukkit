@@ -59,6 +59,7 @@ dependencies {
 
 groovydoc {
     link 'https://docs.oracle.com/javase/8/docs/api/', 'java', 'javax'
+    link 'http://docs.groovy-lang.org/latest/html/gapi/', 'groovy', 'org.codehaus.groovy'
     link 'https://hub.spigotmc.org/javadocs/bukkit/', 'org.bukkit'
 }
 

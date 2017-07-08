@@ -59,7 +59,7 @@ class ExeCommand implements CommandExecutor {
         } else {
             StringBuilder builder = new StringBuilder()
             existingCodes.forEach {
-                builder.append('it').append('\n')
+                builder.append(it).append('\n')
             }
             builder.append(lastCode)
             return builder.toString()

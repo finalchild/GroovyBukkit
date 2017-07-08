@@ -82,4 +82,8 @@ abstract class GBScript extends Script {
         "GBScript: $wrapper.id"
     }
 
+    static GroovyBukkit getPlugin() {
+        GroovyBukkit.instance
+    }
+
 }

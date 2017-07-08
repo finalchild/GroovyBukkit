@@ -22,19 +22,30 @@
  * SOFTWARE.
  */
 
-package me.finalchild.groovybukkit.extension.enchantments
+package me.finalchild.groovybukkit.extension
 
-import org.bukkit.enchantments.Enchantment
+import org.bukkit.NamespacedKey
 
 /**
- * Extends {@link Enchantment}.
+ * Extends {@link NamespacedKey}
  */
-final class EnchantmentExtension {
+final class NamespacedKeyExtension {
 
-    private EnchantmentExtension() {}
+    private NamespacedKeyExtension() {}
 
-    static Map.Entry<Enchantment, Integer> multiply(Enchantment self, int level) {
-        new MapEntry(self, level)
+    static NamespacedKey fromString(NamespacedKey self, String toSplit) {
+        String namespace = 'groovybukkit'
+        String key = toSplit
+        int i = toSplit.indexOf(':' as char)
+
+        if (i >= 0) {
+            key = toSplit.substring(i + 1, toSplit.length())
+
+            if (i > 1) {
+                namespace = toSplit.substring(0, i)
+            }
+        }
+        return new NamespacedKey(namespace, key)
     }
 
 }

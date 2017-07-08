@@ -48,7 +48,7 @@ import java.util.Map.Entry
 /**
  * Utility methods. Automatically imported in GroovyBukkit scripts.
  */
-class Util {
+final class Util {
 
     private Util() {}
 

@@ -30,7 +30,9 @@ import org.bukkit.command.CommandSender
 /**
  * Extends {@link CommandSender}.
  */
-class CommandSenderExtension {
+final class CommandSenderExtension {
+
+    private CommandSenderExtension() {}
 
     /**
      * Dispatches a command on this server, and executes it if found.

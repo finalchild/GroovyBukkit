@@ -76,15 +76,6 @@ class OnCommandDelegate {
     }
 
     /**
-     * Gets the name of this command sender
-     *
-     * @return Name of the sender
-     */
-    String getName() {
-        sender.name
-    }
-
-    /**
      * Dispatches a command on this server, and executes it if found.
      *
      * @param self

@@ -53,7 +53,6 @@ final class GShell {
      * InvokeDynamic support enabled.
      * {@link org.bukkit} and its subpackages imported.
      * {@link me.finalchild.groovybukkit.util} imported.
-     * {@link org.bukkit.Bukkit} imported static.
      * {@link me.finalchild.groovybukkit.extension.Util} imported static.
      * {@link me.finalchild.groovybukkit.util.Enchants} imported static.
      * {@link org.bukkit.Material} imported static.
@@ -66,7 +65,7 @@ final class GShell {
 
         ImportCustomizer customizer = new ImportCustomizer()
         customizer.addStarImports 'me.finalchild.groovybukkit.util', 'org.bukkit', 'org.bukkit.advancement', 'org.bukkit.attribute', 'org.bukkit.block', 'org.bukkit.block.banner', 'org.bukkit.boss', 'org.bukkit.command', 'org.bukkit.command.defaults', 'org.bukkit.configuration', 'org.bukkit.configuration.file', 'org.bukkit.configuration.serialization', 'org.bukkit.conversations', 'org.bukkit.enchantments', 'org.bukkit.entity', 'org.bukkit.entity.minecart', 'org.bukkit.event', 'org.bukkit.event.block', 'org.bukkit.event.enchantment', 'org.bukkit.event.entity', 'org.bukkit.event.hanging', 'org.bukkit.event.inventory', 'org.bukkit.event.painting', 'org.bukkit.event.player', 'org.bukkit.event.server', 'org.bukkit.event.vehicle', 'org.bukkit.event.weather', 'org.bukkit.event.world', 'org.bukkit.generator', 'org.bukkit.help', 'org.bukkit.inventory', 'org.bukkit.inventory.meta', 'org.bukkit.map', 'org.bukkit.material', 'org.bukkit.material.types', 'org.bukkit.metadata', 'org.bukkit.permissions', 'org.bukkit.plugin', 'org.bukkit.plugin.java', 'org.bukkit.plugin.messaging', 'org.bukkit.potion', 'org.bukkit.projectiles', 'org.bukkit.scheduler', 'org.bukkit.scoreboard', 'org.bukkit.util', 'org.bukkit.util.io', 'org.bukkit.util.noise', 'org.bukkit.util.permissions'
-        customizer.addStaticStars 'org.bukkit.Bukkit', 'me.finalchild.groovybukkit.extension.Util', 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.Material'
+        customizer.addStaticStars 'me.finalchild.groovybukkit.extension.Util', 'me.finalchild.groovybukkit.util.Enchants', 'org.bukkit.Material'
         config.addCompilationCustomizers customizer
 
         return config

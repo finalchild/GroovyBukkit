@@ -30,7 +30,9 @@ import org.bukkit.inventory.ItemStack
 /**
  * Extends {@link Material}.
  */
-class MaterialExtension {
+final class MaterialExtension {
+
+    private MaterialExtension() {}
 
     static ItemStack multiply(Material self, int amount) {
         new ItemStack(self, amount)

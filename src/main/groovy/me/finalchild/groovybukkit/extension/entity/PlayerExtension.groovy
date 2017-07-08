@@ -32,7 +32,9 @@ import org.bukkit.inventory.ItemStack
 /**
  * Extends {@link Player}
  */
-class PlayerExtension {
+final class PlayerExtension {
+
+    private PlayerExtension() {}
 
     static void leftShift(Player self, Achievement achievement) {
         self.awardAchievement(achievement)

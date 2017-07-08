@@ -32,7 +32,9 @@ import org.bukkit.inventory.meta.ItemMeta
 /**
  * Extends {@link ItemStack}.
  */
-class ItemStackExtension {
+final class ItemStackExtension {
+
+    private ItemStackExtension() {}
 
     /**
      * Checks for existence of a display name.

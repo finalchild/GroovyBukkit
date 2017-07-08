@@ -36,7 +36,7 @@ final class StaticNamespacedKeyExtension {
     static NamespacedKey fromString(NamespacedKey self, String toSplit) {
         String namespace = 'groovybukkit'
         String key = toSplit
-        int i = toSplit.indexOf(':' as char)
+        int i = toSplit.indexOf((':' as char) as int)
 
         if (i >= 0) {
             key = toSplit.substring(i + 1, toSplit.length())

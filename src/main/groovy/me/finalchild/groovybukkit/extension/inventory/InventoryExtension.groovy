@@ -31,7 +31,9 @@ import org.bukkit.inventory.ItemStack
 /**
  * Extends {@link Inventory}.
  */
-class InventoryExtension {
+final class InventoryExtension {
+
+    private InventoryExtension() {}
 
     static ItemStack getAt(Inventory self, int index) {
         self.getItem(index)

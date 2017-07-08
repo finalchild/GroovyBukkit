@@ -29,7 +29,9 @@ import org.bukkit.configuration.ConfigurationSection
 /**
  * Extends {@link ConfigurationSection}.
  */
-class ConfigurationSectionExtension {
+final class ConfigurationSectionExtension {
+
+    private ConfigurationSectionExtension() {}
 
     static <T> T getAt(ConfigurationSection self, String path) {
         (T) self.get(path)

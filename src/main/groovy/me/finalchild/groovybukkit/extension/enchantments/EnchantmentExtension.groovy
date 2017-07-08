@@ -29,7 +29,9 @@ import org.bukkit.enchantments.Enchantment
 /**
  * Extends {@link Enchantment}.
  */
-class EnchantmentExtension {
+final class EnchantmentExtension {
+
+    private EnchantmentExtension() {}
 
     static Map.Entry<Enchantment, Integer> multiply(Enchantment self, int level) {
         new MapEntry(self, level)

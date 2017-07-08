@@ -30,4 +30,5 @@ extensionClasses=me.finalchild.groovybukkit.extension.Util,\
   me.finalchild.groovybukkit.extension.entity.PlayerExtension,\
   me.finalchild.groovybukkit.extension.inventory.InventoryExtension,\
   me.finalchild.groovybukkit.extension.inventory.ItemStackExtension,\
-  me.finalchild.groovybukkit.extension.MaterialExtension
+  me.finalchild.groovybukkit.extension.MaterialExtension,\
+  me.finalchild.groovybukkit.extension.NamespacedKeyExtension

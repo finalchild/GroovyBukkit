@@ -39,20 +39,20 @@ final class CommandUtil {
 
     private CommandUtil() {}
 
-    private static CommandMap commandMap
+    private static CommandMap pcommandMap
 
     /**
      * Returns the CommandMap of the server.
      * @return the CommandMap of the server.
      */
     static CommandMap getCommandMap() {
-        if (commandMap == null) {
+        if (pcommandMap == null) {
             Server server = Bukkit.server
             Field commandMapField = server.class.getDeclaredField('commandMap')
             commandMapField.accessible = true
-            commandMap = (CommandMap) commandMapField.get(server)
+            pcommandMap = (CommandMap) commandMapField.get(server)
         }
-        return commandMap
+        return pcommandMap
     }
 
     /**

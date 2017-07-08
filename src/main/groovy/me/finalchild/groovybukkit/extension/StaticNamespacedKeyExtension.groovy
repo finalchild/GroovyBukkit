@@ -29,9 +29,9 @@ import org.bukkit.NamespacedKey
 /**
  * Extends {@link NamespacedKey}
  */
-final class NamespacedKeyExtension {
+final class StaticNamespacedKeyExtension {
 
-    private NamespacedKeyExtension() {}
+    private StaticNamespacedKeyExtension() {}
 
     static NamespacedKey fromString(NamespacedKey self, String toSplit) {
         String namespace = 'groovybukkit'

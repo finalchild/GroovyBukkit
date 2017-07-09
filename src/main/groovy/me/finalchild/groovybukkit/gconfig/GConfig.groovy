@@ -43,6 +43,7 @@ final class GConfig {
      * @return A Map of files' Paths and loaded objects
      */
     static <T> Map<Path, T> loadDir(Path directory) {
+        Files.createDirectories(directory)
         return Files.newDirectoryStream(directory, new DirectoryStream.Filter<Path>() {
             boolean accept(Path file) throws IOException {
                 if (Files.isDirectory(file)) return false

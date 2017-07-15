@@ -45,13 +45,13 @@ abstract class GBScript extends Script {
 
     GBScriptWrapper getWrapper() {
         if (pwrapper == null) {
-            pwrapper = binding.getVariable("wrapper") as GBScriptWrapper
+            pwrapper = binding.getVariable('wrapper') as GBScriptWrapper
         }
         pwrapper
     }
 
     Path getConfigPath() {
-        wrapper.dataFolder.resolve("config.yml")
+        wrapper.dataFolder.resolve('config.yml')
     }
 
     FileConfiguration getConfig() {

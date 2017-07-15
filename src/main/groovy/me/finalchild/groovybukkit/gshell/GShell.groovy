@@ -35,6 +35,7 @@ final class GShell {
     private GShell() {}
 
     private static GroovyShell pshell
+    private static CompilerConfiguration pconfig
 
     /**
      * Returns the {@link GroovyShell} to use.
@@ -42,7 +43,7 @@ final class GShell {
      */
     static GroovyShell getShell() {
         if (pshell == null) {
-            pshell = new GroovyShell(newCompilerConfig())
+            pshell = new GroovyShell(config)
         }
         pshell
     }
@@ -70,5 +71,14 @@ final class GShell {
 
         return config
     }
+
+    static CompilerConfiguration getConfig() {
+        if (pconfig == null) {
+            pconfig = newCompilerConfig()
+        }
+        pconfig
+    }
+
+
 
 }

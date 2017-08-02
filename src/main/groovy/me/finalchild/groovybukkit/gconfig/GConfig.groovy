@@ -30,6 +30,8 @@ import java.nio.file.DirectoryStream
 import java.nio.file.Files
 import java.nio.file.Path
 
+import com.google.common.io.Files as GFiles
+
 /**
  * Loads Groovy coded config files
  */
@@ -47,7 +49,7 @@ final class GConfig {
         return Files.newDirectoryStream(directory, new DirectoryStream.Filter<Path>() {
             boolean accept(Path file) throws IOException {
                 if (Files.isDirectory(file)) return false
-                String extension = com.google.common.io.Files.getFileExtension(file.toAbsolutePath().toString())
+                String extension = GFiles.getFileExtension(file.toAbsolutePath().toString())
                 extension == 'groovy' || extension == 'gvy' || extension == 'gy' || extension == 'gvy'
             }
         }).withCloseable {
@@ -62,7 +64,7 @@ final class GConfig {
      */
     static <T> T loadConfig(Path file) {
         (T) file.withReader('UTF-8') { reader ->
-            GShell.shell.evaluate(reader)
+            GShell.shell.evaluate(reader, GFiles.getNameWithoutExtension(file.toAbsolutePath().toString()))
         }
     }
 

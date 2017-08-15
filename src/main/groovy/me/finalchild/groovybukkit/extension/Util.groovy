@@ -397,4 +397,17 @@ final class Util {
         }
 
     }
+
+    /**
+     * Dispatches a command on this server, and executes it if found.
+     *
+     * @param the command + arguments. Example: <code>test abc
+     *     123</code>
+     * @return returns false if no target is found
+     * @throws org.bukkit.command.CommandException thrown when the executor for the given command
+     *     fails with an unhandled exception
+     */
+    static boolean console(String commandLine) {
+        Bukkit.dispatchCommand(Bukkit.consoleSender, commandLine)
+    }
 }

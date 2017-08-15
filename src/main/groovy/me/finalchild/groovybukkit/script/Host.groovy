@@ -39,12 +39,14 @@ class Host {
 
     void initDependencyHandler() {
         on(PluginEnableEvent) {
-            if (requireMap.containsKey(event.plugin.name)) {
-                Set<String> require = requireMap.remove(event.plugin.name)
-                require.forEach { id ->
-                    evalScript(id)
+            try {
+                if (requireMap.containsKey(event.plugin.name)) {
+                    Set<String> require = requireMap.remove(event.plugin.name)
+                    require.forEach { id ->
+                        evalScript(id)
+                    }
                 }
-            }
+            } catch (NoClassDefFoundError ignored) {}
         }
     }
 

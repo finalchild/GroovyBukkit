@@ -374,7 +374,7 @@ final class Util {
                 if (itemFlags != null) meta.addItemFlags itemFlags.toArray() as ItemFlag[]
                 meta.unbreakable = unbreakable
                 stack.itemMeta = meta
-                stack.addUnsafeEnchantments enchantments
+                if (enchantments != null) stack.addUnsafeEnchantments enchantments
             }
 
             if (data != -1) stack.data.data = data

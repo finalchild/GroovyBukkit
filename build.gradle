@@ -23,7 +23,7 @@
  */
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
 }
 
 apply plugin: 'java'
@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.bukkit:bukkit:1.12.1-R0.1-SNAPSHOT'
+    compile 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
     compile 'org.codehaus.groovy:groovy-all:2.4.12:indy'
 }
 

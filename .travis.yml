@@ -1,6 +1,6 @@
 language: groovy
 jdk:
-- oraclejdk9
+- oraclejdk8
 before_deploy: gradle prepareUpload
 deploy:
   - provider: releases

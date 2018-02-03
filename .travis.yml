@@ -1,7 +1,7 @@
 language: groovy
 jdk:
 - oraclejdk9
-before_deploy: gradle prepareUpload
+before_deploy: ./gradlew prepareUpload
 deploy:
   - provider: releases
     api_key:
